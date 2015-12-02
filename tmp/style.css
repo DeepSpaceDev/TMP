@@ -8,6 +8,7 @@ section {
 .border {
 	box-sizing: border-box;
 	position: absolute;
+	border: 1px dotted #555; /*debug*/
 }
 .btop{
 	border-top: 5px solid black;
@@ -20,4 +21,7 @@ section {
 }
 .bleft{
 	border-left: 4px solid black;
+}
+.red{
+	background-color: red;
 }
