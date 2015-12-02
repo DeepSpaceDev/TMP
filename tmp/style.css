@@ -1,0 +1,23 @@
+section {
+	height: 100%;
+	width: 100%;
+	background-color: #EEEEEE;
+	margin: auto;
+}
+
+.border {
+	box-sizing: border-box;
+	position: absolute;
+}
+.btop{
+	border-top: 5px solid black;
+}
+.bright{
+	border-right: 4px solid black;
+}
+.bbottom{
+	border-bottom: 4px solid black;
+}
+.bleft{
+	border-left: 4px solid black;
+}
