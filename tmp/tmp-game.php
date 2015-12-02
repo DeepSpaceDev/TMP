@@ -8,6 +8,7 @@
 		</section>
 	</template>
 	<script type="text/javascript">
-		<?php require("main.js") ?>
+		<?php require("js/main.js") ?>
+		<?php require("js/map.js") ?>
 	</script>
 </dom-module>  

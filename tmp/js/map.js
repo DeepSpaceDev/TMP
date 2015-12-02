@@ -1,14 +1,3 @@
-Polymer({
-	is: 'tmp-game',
-
-	ready: function(){
-		generateMap();
-	}
-});
-
-function l(s){
-	console.log(s);
-}
 function generateMap(bh, bv){
 	var blockHori = ((bh == undefined) ? getRandomInt(8, 25) : bh);
 	var blockVerti = ((bv == undefined) ? getRandomInt(5, 20) : bv);
@@ -60,7 +49,4 @@ function generateMap(bh, bv){
 
 		$("map").html(mapc);
 
-}
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
