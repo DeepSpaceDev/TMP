@@ -1,4 +1,4 @@
-<dom-module id="tmp-game">
+<dom-module id="tmp-map">
 	<template>
 		<style>
 			<?php require("style.css"); ?>

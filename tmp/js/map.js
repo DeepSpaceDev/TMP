@@ -40,7 +40,7 @@ function generateMap(bh){
 		    	+ "% + " + ((blockVerti * borderStr) / 2 - 5) + "px); left: calc(" + posx 
 		    	+ "% + " + ((blockHori * borderStr) / 2) + "px); margin-top: -" + mgtop
 		    	+ "px; margin-left: -" + mgleft
-		    	+ "px;' class='tmp-game border ";
+		    	+ "px;' class='tmp-map border ";
 		        /*blocks[i][j] = [Math.random() >= 0.8, Math.random() >= 0.8, Math.random() >= 0.8, Math.random() >= 0.8];
 		        /*if(blocks[i][j][0] || j == 0){
 		        	mapc += "btop ";
