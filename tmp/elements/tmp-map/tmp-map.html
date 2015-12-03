@@ -183,29 +183,45 @@
 			}
 			else{
 				switch(type){
-					case 0: 
+					case 0:
 						blocks[cx][cy][1] = false;
-						blocks[nx][ny][1] = true;
-						blocks[nx][ny][4] = true;
-						if(nx + 1 < x){blocks[nx + 1][ny][4] = true;}
+						if(border(nx, ny, x, y)){
+							switch(getRandomInt(0, 2)){
+								case 0: blocks[nx][ny][1] = true; break;
+								case 1: blocks[nx][ny][4] = true; break;
+								case 2: if(nx + 1 < x){blocks[nx + 1][ny][4] = true;} break;
+							}
+						}						
 						break; //top
 					case 1: 
-						blocks[cx + 1][cy][4] = false; 
-						blocks[nx][ny][1] = true;
-						if(nx + 1 < x){blocks[nx + 1][ny][4] = true;}
-						if(ny + 1 < y){blocks[nx][ny + 1][1] = true;}
+						blocks[cx + 1][cy][4] = false;
+						if(border(nx, ny, x, y)){
+							switch(getRandomInt(0, 2)){
+								case 0: blocks[nx][ny][1] = true; break;
+								case 1:	if(nx + 1 < x){blocks[nx + 1][ny][4] = true;} break;
+								case 2: if(ny + 1 < y){blocks[nx][ny + 1][1] = true;} break;
+							}
+						}				
 						break; //right
 					case 2: 
 						blocks[cx][cy + 1][1] = false;
-						blocks[nx][ny][4] = true;
-						if(ny + 1 < y){blocks[nx][ny + 1][1] = true;}
-						if(nx + 1 < x){blocks[nx + 1][ny][4] = true;}
+						if(border(nx, ny, x, y)){
+							switch(getRandomInt(0, 2)){
+								case 0: blocks[nx][ny][4] = true; break;
+								case 1: if(ny + 1 < y){blocks[nx][ny + 1][1] = true;}break;
+								case 2: if(nx + 1 < x){blocks[nx + 1][ny][4] = true;} break;
+							}
+						}
 						break; //bot
 					case 3: 
-						blocks[cx][cy][4] = false; 
-						blocks[nx][ny][1] = true;
-						blocks[nx][ny][4] = true;
-						if(ny + 1 < y){blocks[nx][ny + 1][1] = true;}
+						blocks[cx][cy][4] = false;
+						if(border(nx, ny, x, y)){
+							switch(getRandomInt(0, 2)){
+								case 0: blocks[nx][ny][1] = true; break;
+								case 1: blocks[nx][ny][4] = true; break;
+								case 2: if(ny + 1 < y){blocks[nx][ny + 1][1] = true;} break;
+							}
+						}		
 						break; //left
 				}
 
@@ -214,6 +230,44 @@
 				returner["y"] = ny;
 				return returner;
 			}
+		}
+		function border(nx, ny, bx, by){
+			if(countborders(nx, ny, bx, by) <= 1){
+						return true;
+			}
+			return false;			
+		}
+		function countborders(x, y, bx, by){
+			var returner = 0;
+			var xborder = (x + 1 == bx);
+			var yborder = (y + 1 == by);
+
+			if(blocks[x][y][1]){
+				returner++;
+			}
+
+			if(blocks[x][y][4]){
+				returner++;
+			}
+
+			if(!xborder){
+				if(blocks[x + 1][y][4]){
+					returner++;
+				}
+			}
+			else{
+				returner++;
+			}
+
+			if(!yborder){
+				if(blocks[x][y + 1][1]){
+					returner++;
+				}
+			}
+			else{
+				returner++;
+			}
+			return returner;
 		}
 	</script>
 </dom-module>  
