@@ -49,11 +49,21 @@
 						return [];
 					},
 					readOnly: true
+				},
+				maxPlayers: {
+					type: Number,
+					observer: '_changePlayerNumber'
+					value: 50
 				}
 			},
 
 			ready: function() {
-				for(i=0; i<50; i++) {
+				this._changePlayerNumber();
+			},
+
+			_changePlayerNumber: function() {
+				this.set('dummyArray', []);
+				for(i=0; i<this.maxPlayers; i++) {
 					this.push('dummyArray', '');
 				}
 			},
