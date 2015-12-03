@@ -1,0 +1,26 @@
+<dom-module id="tmp-game">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+		<template is="dom-if" if={{gameRunning}}>
+			<tmp-map></tmp-map>
+		</template>
+		<tmp-menu></tmp-menu>
+	</template>
+	<script>
+		Polymer({
+			is: 'tmp-game',
+
+			properties: {
+				gameRunning: {
+					type: Boolean,
+					notify: true,
+					value: false
+				}
+			}
+		});
+	</script>
+</dom-module>
