@@ -1,5 +1,5 @@
 <dom-module id="tmp-map">
-	<!--COPYRIGHT 2015 Sebastian Schneider & Dennis Kugelmann ;), all rights reserved -->
+	<!--COPYRIGHT 2015 Sebastian Schneider & Dennis Kugelmann, all rights reserved -->
 	<template>
 		<style>
 		section {
@@ -45,7 +45,7 @@
 			is: 'tmp-map',
 
 			attached: function(){
-				generateMap();
+				generateMap(20);
 				mapTo_16_9();
 			}
 		});
@@ -55,12 +55,41 @@
 		function runLabAlgor(x, y){
 			//pick random start at border
 			var curBl = "";
-			var rightleft = getRandomInt(0, x - 1);
-			var topbot = getRandomInt(0, y - 1);
-			$("#border" + rightleft + topbot).addClass("red");
+			var cx = getRandomInt(0, x - 1);
+			var cy = getRandomInt(0, y - 1);
+			var run = true;
+			var count = 0;
+
+			$("#border" + cx + cy).addClass("red");
+
+			while(run){
+				var newB = newBlock(x, y, cx, cy);
+
+				$("#border" + newB["x"] + "_" + newB["y"]).addClass("red");
+
+				cx = newB["x"];
+				cy = newB["y"];
+
+				if(count == 2500){run = false;}
+				count++;
+			}
+			
 		}
 		function drawMap(json){
+			var mpblocks = ((json == undefined) ? blocks : JSON.parse(json));
 
+			for(var i = 0; i < mpblocks.length; i++){
+				for(var j = 0; j < mpblocks[i].length; j++){
+					var bl = mpblocks[i][j];
+
+					if(bl[1]){
+						$("#border" + i + "_" + j).addClass("btop");
+					}
+					if(bl[4]){
+						$("#border" + i + "_" + j).addClass("bleft");
+					}
+				}
+			}
 		}
 		function generateMap(bh){
 			var blockHori = ((bh == undefined) ? getRandomInt(8, 25) : bh);
@@ -80,7 +109,7 @@
 				    blocks[i] = [];
 				    for(var j = 0; j < blockVerti; j++){
 				    	mapc += "" 
-				    	+ "<div id='border" + i + "" + j +"' style='height: " + hy 
+				    	+ "<div id='border" + i + "_" + j +"' style='height: " + hy 
 				    	+ "%; width: " + hx
 				    	+ "%; top: calc(" + posy 
 				    	+ "% + " + ((blockVerti * borderStr) / 2 - 5) + "px); left: calc(" + posx 
@@ -89,6 +118,13 @@
 				    	+ "px;' class='tmp-map border ";
 				       	
 				    	blocks[i][j] = [];
+
+				        blocks[i][j][0] = null;
+				        blocks[i][j][1] = true;
+				        blocks[i][j][2] = null;
+				        blocks[i][j][3] = null;
+				        blocks[i][j][4] = true;
+
 
 				        if(j == 0){
 				        	mapc += "btop ";
@@ -109,8 +145,6 @@
 				        mapc += "'></div>"
 				        posy = posy + 100 / blockVerti;
 				        mgtop = mgtop + borderStr;
-
-				        blocks[i][j][0] = null;
 				    }
 				    posy = 0;
 				    mgtop = 0;
@@ -129,6 +163,29 @@
 			if(((window.outerHeight / 9) * 16) < window.innerWidth){
 				$("map").width(((window.outerHeight / 9 ) * 16));
 				$("map").css("left", (window.innerWidth - ((window.outerHeight / 9) * 16)) / 2);
+			}
+		}
+		function newBlock(x, y, cx, cy){
+			var returner = [];
+			var ny = cy;
+			var nx = cx;
+
+			switch(getRandomInt(0, 3)){
+				case 0: ny = cy - 1; break;
+				case 1: nx = cx + 1; break;
+				case 2: ny = cy + 1; break;
+				case 3: nx = cx - 1; break;
+			}
+
+			if(nx < 0 || nx >= x || ny < 0 || ny >= y){
+				return newBlock(x, y, cx, cy);
+			}
+			else{
+				l(nx + " " + ny);
+				blocks[nx][ny][0] = true;
+				returner["x"] = nx;
+				returner["y"] = ny;
+				return returner;
 			}
 		}
 	</script>
