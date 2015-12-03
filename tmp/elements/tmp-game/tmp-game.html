@@ -8,7 +8,9 @@
 		<template is="dom-if" if={{gameRunning}}>
 			<tmp-map></tmp-map>
 		</template>
-		<tmp-menu></tmp-menu>
+		<template is="dom-if" if={{!gameRunning}}>
+			<tmp-menu></tmp-menu>
+		</template>
 	</template>
 	<script>
 		Polymer({
