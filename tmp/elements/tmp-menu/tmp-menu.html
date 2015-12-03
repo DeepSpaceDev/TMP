@@ -26,6 +26,8 @@
 					</template>
 				</paper-menu>
 			</paper-dropdown-menu>
+			<paper-input label="Width" type="number" min="8" max="25" step="1" value="{{width}}"></paper-input>
+			<paper-input label="Height" value="[[_updateHeight(width)]]" disabled></paper-input>
 			<div class="buttons">
 				<paper-button class="green" raised>Local</paper-button>
 				<paper-button class="blue" raised>Global</paper-button>
@@ -54,17 +56,25 @@
 					type: Number,
 					observer: '_changePlayerNumber',
 					value: 50
+				},
+				width: {
+					type: Number,
+					notify: true,
+					observer: '_updateHeight',
+					value: function() {
+						var min = 8;
+						var max = 25;
+						return Math.floor(Math.random() * (max - min +1)) + min;
+					}
 				}
 			},
 
-			ready: function() {
-				this._changePlayerNumber();
+			_updateHeight: function(width) {
+				return parseInt((width/16)*9);
 			},
 
 			_changePlayerNumber: function() {
-				console.log(this.dummyArray);
 				this.splice('dummyArray', 0, this.dummyArray.length);
-				console.log(this.dummyArray);
 				for(i=0; i<this.maxPlayers; i++) {
 					this.push('dummyArray', '');
 				}
@@ -76,6 +86,10 @@
 
 			_changed: function(newVal, oldVal) {
 				var newVal = parseInt(newVal);
+			},
+
+			ready: function() {
+				this._changePlayerNumber();
 			}
 		});
 	</script>
