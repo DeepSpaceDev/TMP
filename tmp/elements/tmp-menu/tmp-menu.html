@@ -2,13 +2,69 @@
 	<template>
 		<style>
 			:host {
-				display: block;
+				display: flex;
+				height: 100%;
+			}
+
+			paper-material {
+				max-width: 80%;
+			}
+
+			.green {
+				background: var(--paper-light-green-500);
+			}
+			.blue {
+				background: var(--paper-light-blue-500);
 			}
 		</style>
+		<paper-material>
+			<paper-item>Settings</paper-item>
+			<paper-dropdown-menu label="Player">
+				<paper-menu class="dropdown-content">
+					<template is="dom-repeat" items={{dummyArray}}>
+						<paper-item>Spieler&nbsp;<span>[[addOne(index)]]</span></paper-item>
+					</template>
+				</paper-menu>
+			</paper-dropdown-menu>
+			<div class="buttons">
+				<paper-button class="green" raised>Local</paper-button>
+				<paper-button class="blue" raised>Global</paper-button>
+			</div>
+		</paper-material>
 	</template>
 	<script>
 		Polymer({
-			is: 'tmp-menu'
+			is: 'tmp-menu',
+
+			properties: {
+				players: {
+					type: Number,
+					notify: true,
+					value: 2,
+					observer: '_changed'
+				},
+				dummyArray: {
+					type: Array,
+					value: function() {
+						return [];
+					},
+					readOnly: true
+				}
+			},
+
+			ready: function() {
+				for(i=0; i<50; i++) {
+					this.push('dummyArray', '');
+				}
+			},
+
+			addOne: function(index) {
+				return index + 1;
+			},
+
+			_changed: function(newVal, oldVal) {
+				var newVal = parseInt(newVal);
+			}
 		});
 	</script>
 </dom-module>
