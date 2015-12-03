@@ -52,7 +52,7 @@
 				},
 				maxPlayers: {
 					type: Number,
-					observer: '_changePlayerNumber'
+					observer: '_changePlayerNumber',
 					value: 50
 				}
 			},
@@ -62,7 +62,9 @@
 			},
 
 			_changePlayerNumber: function() {
-				this.set('dummyArray', []);
+				console.log(this.dummyArray);
+				this.splice('dummyArray', 0, this.dummyArray.length);
+				console.log(this.dummyArray);
 				for(i=0; i<this.maxPlayers; i++) {
 					this.push('dummyArray', '');
 				}
