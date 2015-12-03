@@ -26,7 +26,7 @@
 					</template>
 				</paper-menu>
 			</paper-dropdown-menu>
-			<paper-input label="Width" type="number" min="8" max="25" step="1" value="{{width}}"></paper-input>
+			<paper-input label="Width" type="number" min="8" max="25" auto-validate error-message="4 < width < 26" step="1" value="{{width}}"></paper-input>
 			<paper-input label="Height" value="[[_updateHeight(width)]]" disabled></paper-input>
 			<div class="buttons">
 				<paper-button class="green" raised>Local</paper-button>
