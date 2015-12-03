@@ -1,10 +1,135 @@
 <dom-module id="tmp-map">
+	<!--COPYRIGHT 2015 Sebastian Schneider & Dennis Kugelmann ;), all rights reserved -->
 	<template>
-		<link rel="stylesheet" href="stylesheet.css">
+		<style>
+		section {
+			height: 100%;
+			width: 100%;
+			background-color: #EEEEEE;
+			margin: auto;
+		}
+
+		map {
+			height: 100%;
+			width: 100%;
+			position: absolute;
+		}
+		.border {
+			box-sizing: border-box;
+			position: absolute;
+			border: 1px dotted #555; /*debug*/
+		}
+		.btop{
+			border-top: 5px solid black;
+		}
+		.bright{
+			border-right: 4px solid black;
+		}
+		.bbottom{
+			border-bottom: 4px solid black;
+		}
+		.bleft{
+			border-left: 4px solid black;
+		}
+		.red{
+			background-color: red;
+		}
+		</style>
 		<section>
 			<map></map>
 		</section>
 	</template>
 	<script src="../../js/main.js"></script>
-	<script src="../../js/map.js"></script>
+	<script type="text/javascript">
+		Polymer({
+			is: 'tmp-map',
+
+			attached: function(){
+				generateMap();
+				mapTo_16_9();
+			}
+		});
+
+		var blocks = [];
+
+		function runLabAlgor(x, y){
+			//pick random start at border
+			var curBl = "";
+			if(getRandomBoolean()){ //random vertical or horizontal
+				//horizontal
+				var topbot = ((getRandomBoolean()) ? 0 : y - 1);
+				var rightleft = getRandomInt(0, x - 1);
+			}
+			else{
+				var topbot = getRandomInt(0, y - 1);
+				var rightleft = ((getRandomBoolean()) ? 0 : x - 1);;
+			}
+			l(x + " " + y);
+			l(rightleft + " " + topbot);
+			$("#" + blocks[rightleft][topbot]).addClass("red");
+		}
+		function generateMap(bh){
+			var blockHori = ((bh == undefined) ? getRandomInt(8, 25) : bh);
+			var blockVerti = parseInt((blockHori / 16) * 9); //16 : 9
+			var borderStr = 4;
+
+			var posx = 0;
+			var posy = 0;
+			var hx = 100 / blockHori
+			var hy = 100 / blockVerti;
+			var mgtop = 0;
+			var mgleft = 0;
+
+			var mapc = "";
+			
+				for(var i = 0; i < blockHori; i++){
+				    blocks[i] = [];
+				    for(var j = 0; j < blockVerti; j++){
+				    	mapc += "" 
+				    	+ "<div id='border" + i + "" + j +"' style='height: " + hy 
+				    	+ "%; width: " + hx
+				    	+ "%; top: calc(" + posy 
+				    	+ "% + " + ((blockVerti * borderStr) / 2 - 5) + "px); left: calc(" + posx 
+				    	+ "% + " + ((blockHori * borderStr) / 2) + "px); margin-top: -" + mgtop
+				    	+ "px; margin-left: -" + mgleft
+				    	+ "px;' class='tmp-map border ";
+				        /*blocks[i][j] = [Math.random() >= 0.8, Math.random() >= 0.8, Math.random() >= 0.8, Math.random() >= 0.8];
+				        /*if(blocks[i][j][0] || j == 0){
+				        	mapc += "btop ";
+				        } 
+				        if(blocks[i][j][1] || i == blockHori - 1){
+				        	mapc += "bright ";
+				        }
+				        if(blocks[i][j][2] || j == blockVerti - 1){
+				        	mapc += "bbottom ";
+				        }
+				        if(blocks[i][j][3] || i == 0){
+				        	mapc += "bleft ";
+				        }*/
+				        mapc += "'></div>"
+				        posy = posy + 100 / blockVerti;
+				        mgtop = mgtop + borderStr;
+
+				        blocks[i][j] = "border" + i + "" + j;
+				    }
+				    posy = 0;
+				    mgtop = 0;
+				    mgleft = mgleft + borderStr;
+				    posx = posx + 100 / blockHori;
+				}
+
+				$("map").html(mapc);
+				runLabAlgor(blockHori, blockVerti);
+		}
+		function mapTo_16_9(){
+			if(((window.innerWidth / 16) * 9) < window.outerHeight){
+				$("map").height(((window.innerWidth / 16 ) * 9));
+				$("map").css("top", (window.outerHeight - ((window.innerWidth / 16) * 9)) / 3); 
+			}
+			if(((window.outerHeight / 9) * 16) < window.innerWidth){
+				$("map").width(((window.outerHeight / 9 ) * 16));
+				$("map").css("left", (window.innerWidth - ((window.outerHeight / 9) * 16)) / 2);
+			}
+		}
+	</script>
 </dom-module>  

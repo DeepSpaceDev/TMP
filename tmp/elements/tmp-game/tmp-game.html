@@ -11,6 +11,7 @@
 		<template is="dom-if" if={{!gameRunning}}>
 			<tmp-menu></tmp-menu>
 		</template>
+
 	</template>
 	<script>
 		Polymer({
@@ -20,7 +21,7 @@
 				gameRunning: {
 					type: Boolean,
 					notify: true,
-					value: false
+					value: true
 				}
 			}
 		});
