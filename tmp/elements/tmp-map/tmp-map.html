@@ -55,18 +55,12 @@
 		function runLabAlgor(x, y){
 			//pick random start at border
 			var curBl = "";
-			if(getRandomBoolean()){ //random vertical or horizontal
-				//horizontal
-				var topbot = ((getRandomBoolean()) ? 0 : y - 1);
-				var rightleft = getRandomInt(0, x - 1);
-			}
-			else{
-				var topbot = getRandomInt(0, y - 1);
-				var rightleft = ((getRandomBoolean()) ? 0 : x - 1);;
-			}
-			l(x + " " + y);
-			l(rightleft + " " + topbot);
-			$("#" + blocks[rightleft][topbot]).addClass("red");
+			var rightleft = getRandomInt(0, x - 1);
+			var topbot = getRandomInt(0, y - 1);
+			$("#border" + rightleft + topbot).addClass("red");
+		}
+		function drawMap(json){
+
 		}
 		function generateMap(bh){
 			var blockHori = ((bh == undefined) ? getRandomInt(8, 25) : bh);
@@ -93,24 +87,30 @@
 				    	+ "% + " + ((blockHori * borderStr) / 2) + "px); margin-top: -" + mgtop
 				    	+ "px; margin-left: -" + mgleft
 				    	+ "px;' class='tmp-map border ";
-				        /*blocks[i][j] = [Math.random() >= 0.8, Math.random() >= 0.8, Math.random() >= 0.8, Math.random() >= 0.8];
-				        /*if(blocks[i][j][0] || j == 0){
+				       	
+				    	blocks[i][j] = [];
+
+				        if(j == 0){
 				        	mapc += "btop ";
+				        	blocks[i][j][1] = true;
 				        } 
-				        if(blocks[i][j][1] || i == blockHori - 1){
+				        if(i == blockHori - 1){
 				        	mapc += "bright ";
+				        	blocks[i][j][2] = true;
 				        }
-				        if(blocks[i][j][2] || j == blockVerti - 1){
+				        if(j == blockVerti - 1){
 				        	mapc += "bbottom ";
+				        	blocks[i][j][3] = true;
 				        }
-				        if(blocks[i][j][3] || i == 0){
+				        if(i == 0){
 				        	mapc += "bleft ";
-				        }*/
+				        	blocks[i][j][4] = true;
+				        }
 				        mapc += "'></div>"
 				        posy = posy + 100 / blockVerti;
 				        mgtop = mgtop + borderStr;
 
-				        blocks[i][j] = "border" + i + "" + j;
+				        blocks[i][j][0] = null;
 				    }
 				    posy = 0;
 				    mgtop = 0;
@@ -119,7 +119,7 @@
 				}
 
 				$("map").html(mapc);
-				runLabAlgor(blockHori, blockVerti);
+				drawMap(runLabAlgor(blockHori, blockVerti));
 		}
 		function mapTo_16_9(){
 			if(((window.innerWidth / 16) * 9) < window.outerHeight){
