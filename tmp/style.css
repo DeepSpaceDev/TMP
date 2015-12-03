@@ -5,6 +5,12 @@ section {
 	margin: auto;
 }
 
+map {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+
 .border {
 	box-sizing: border-box;
 	position: absolute;
