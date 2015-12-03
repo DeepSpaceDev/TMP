@@ -18,12 +18,12 @@ function runLabAlgor(x, y){
 }
 function generateMap(bh){
 	var blockHori = ((bh == undefined) ? getRandomInt(8, 25) : bh);
-	var blockVerti = parseInt((blockHori / 16) * 9); /*16:9 bildschrime, wird noch angepasst*/
+	var blockVerti = parseInt((blockHori / 16) * 9); //16 : 9
 	var borderStr = 4;
 
 	var posx = 0;
 	var posy = 0;
-	var hx = 100 / blockHori;
+	var hx = 100 / blockHori
 	var hy = 100 / blockVerti;
 	var mgtop = 0;
 	var mgleft = 0;
@@ -35,7 +35,7 @@ function generateMap(bh){
 		    for(var j = 0; j < blockVerti; j++){
 		    	mapc += "" 
 		    	+ "<div id='border" + i + "" + j +"' style='height: " + hy 
-		    	+ "%; width: " + hx 
+		    	+ "%; width: " + hx
 		    	+ "%; top: calc(" + posy 
 		    	+ "% + " + ((blockVerti * borderStr) / 2 - 5) + "px); left: calc(" + posx 
 		    	+ "% + " + ((blockHori * borderStr) / 2) + "px); margin-top: -" + mgtop
