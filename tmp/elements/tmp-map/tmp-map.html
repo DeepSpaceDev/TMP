@@ -70,7 +70,7 @@
 				cx = newB["x"];
 				cy = newB["y"];
 
-				if(count == 2500){run = false;}
+				if(count == x * y * 35){run = false;} //average value
 				count++;
 			}
 			
@@ -169,19 +169,46 @@
 			var returner = [];
 			var ny = cy;
 			var nx = cx;
+			var type = getRandomInt(0, 3);
 
-			switch(getRandomInt(0, 3)){
-				case 0: ny = cy - 1; break;
-				case 1: nx = cx + 1; break;
-				case 2: ny = cy + 1; break;
-				case 3: nx = cx - 1; break;
+			switch(type){
+				case 0: ny = cy - 1; break; //top
+				case 1: nx = cx + 1; break; //right
+				case 2: ny = cy + 1; break; //bot
+				case 3: nx = cx - 1; break; //left
 			}
 
 			if(nx < 0 || nx >= x || ny < 0 || ny >= y){
 				return newBlock(x, y, cx, cy);
 			}
 			else{
-				l(nx + " " + ny);
+				switch(type){
+					case 0: 
+						blocks[cx][cy][1] = false;
+						blocks[nx][ny][1] = true;
+						blocks[nx][ny][4] = true;
+						if(nx + 1 < x){blocks[nx + 1][ny][4] = true;}
+						break; //top
+					case 1: 
+						blocks[cx + 1][cy][4] = false; 
+						blocks[nx][ny][1] = true;
+						if(nx + 1 < x){blocks[nx + 1][ny][4] = true;}
+						if(ny + 1 < y){blocks[nx][ny + 1][1] = true;}
+						break; //right
+					case 2: 
+						blocks[cx][cy + 1][1] = false;
+						blocks[nx][ny][4] = true;
+						if(ny + 1 < y){blocks[nx][ny + 1][1] = true;}
+						if(nx + 1 < x){blocks[nx + 1][ny][4] = true;}
+						break; //bot
+					case 3: 
+						blocks[cx][cy][4] = false; 
+						blocks[nx][ny][1] = true;
+						blocks[nx][ny][4] = true;
+						if(ny + 1 < y){blocks[nx][ny + 1][1] = true;}
+						break; //left
+				}
+
 				blocks[nx][ny][0] = true;
 				returner["x"] = nx;
 				returner["y"] = ny;
