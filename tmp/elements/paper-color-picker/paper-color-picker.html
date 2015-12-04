@@ -170,8 +170,8 @@ There are three different main configurations the dialog allows, `circle`, `squa
       </div>
     </div>
     <div class="buttons">
-      <paper-button >Cancel</paper-button>
-      <paper-button on-tap="setColor">OK</paper-button>
+      <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button dialog-confirm on-tap="setColor">OK</paper-button>
     </div>
   </paper-dialog>
 </template>
@@ -317,7 +317,6 @@ There are three different main configurations the dialog allows, `circle`, `squa
       },
       setColor: function () {
         this.set('color', this.immediateColor);
-        this.$.dialog.close();
       },
       open: function () {
         if (this.color && this.color[1])
