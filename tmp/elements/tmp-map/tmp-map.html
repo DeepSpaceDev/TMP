@@ -54,8 +54,6 @@
 			}
 		});
 
-		var blocks = [];
-
 		function countborders(x, y, bx, by){
 			var returner = 0;
 			var xborder = (x + 1 == bx);
@@ -108,11 +106,11 @@
 			} 
 		}
 		function drawMap(json){
-			var mpblocks = ((json == undefined) ? blocks : JSON.parse(json));
+			blocks = ((json == undefined) ? blocks : JSON.parse(json));
 
-			for(var i = 0; i < mpblocks.length; i++){
-				for(var j = 0; j < mpblocks[i].length; j++){
-					var bl = mpblocks[i][j];
+			for(var i = 0; i < blocks.length; i++){
+				for(var j = 0; j < blocks[i].length; j++){
+					var bl = blocks[i][j];
 
 					if(bl[1]){
 						$("#border" + i + "_" + j).addClass("btop");
