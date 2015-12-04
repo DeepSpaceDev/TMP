@@ -62,7 +62,7 @@
 				var gameId = e.detail.gameId;
 				for (var i = 0; i < this.gameData.length; i++) {
 					if(this.gameData[i].gameId === gameId) {
-						var map = this.gameData.map;
+						var map = this.gameData[i].map;
 						drawMap(map);
 						this.set('gameRunning', true);
 					}
