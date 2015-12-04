@@ -6,14 +6,16 @@
 				height: 100%;
 				background: #FAFAFA;
 			}
+			div {
+			}
 		</style>
-		<template is="dom-if" if={{gameRunning}}>
+		<div id="mapContainer" style="visibility: collapse">
 			<tmp-map></tmp-map>
-		</template>
-		<template is="dom-if" if={{!gameRunning}}>
-			<tmp-menu></tmp-menu>
-		</template>
-
+		</div>
+		<div id="menuContainer" style="visibility: visible">
+			<tmp-menu on-start-global-game="startGlobalGame"></tmp-menu>
+		</div>
+		<tmp-game-data data="{{gameData}}"></tmp-game-data>
 	</template>
 	<script>
 		Polymer({
@@ -23,7 +25,39 @@
 				gameRunning: {
 					type: Boolean,
 					notify: true,
-					value: true
+					value: true,
+					observer: '_gameStatusChanged'
+				},
+				gameData: {
+					notify: true
+				},
+				gameId: {
+					type: String
+				}
+			},
+
+			startGlobalGame: function(e) {
+				this.set('gameRunning', true);
+
+				$("map").html("");
+				generateMap(e.detail.width);
+
+				var gameId = generateGameId(6);
+				this.set('gameId', gameId);
+
+				this.push('gameData', {
+					gameId: gameId,
+					maxPlayers: e.detail.maxPlayers
+				});
+			},
+
+			_gameStatusChanged: function(){
+				if(this.gameRunning) {
+					this.$.mapContainer.style.visibility = 'visible';
+					this.$.menuContainer.style.visibility = 'collapse';
+				} else {
+					this.$.menuContainer.style.visibility = 'visible';
+					this.$.mapContainer.style.visibility = 'collapse';
 				}
 			}
 		});

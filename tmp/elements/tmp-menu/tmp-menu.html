@@ -26,12 +26,15 @@
 					</template>
 				</paper-menu>
 			</paper-dropdown-menu>
-			<paper-input label="Width" type="number" min="8" max="25" auto-validate error-message="7 < width < 26" step="1" value="{{width}}"></paper-input>
+			<paper-input label="Width" type="number" min="8" max="25" 
+						 auto-validate error-message="7 < width < 26" 
+						 step="1" value="{{width}}">
+			</paper-input>
 			<paper-input label="Height" value="[[_updateHeight(width)]]" disabled></paper-input>
 			<tmp-color color="{{color}}"></tmp-color>
 			<div class="buttons">
 				<paper-button class="green" raised>Local</paper-button>
-				<paper-button class="blue" raised>Global</paper-button>
+				<paper-button class="blue" on-tap="startGlobalGame" raised>Global</paper-button>
 			</div>
 		</paper-material>
 	</template>
@@ -56,7 +59,8 @@
 				maxPlayers: {
 					type: Number,
 					observer: '_changePlayerNumber',
-					value: 50
+					value: 50,
+					readOnly: true
 				},
 				width: {
 					type: Number,
@@ -72,6 +76,13 @@
 					type: Array,
 					notify: true
 				}
+			},
+
+			startGlobalGame: function() {
+				this.fire('start-global-game', {
+					maxPlayers: this.players,
+					width: this.width
+				});
 			},
 
 			_updateHeight: function(width) {

@@ -26,7 +26,8 @@
     "paper-menu": "PolymerElements/paper-menu#~1.2.0",
     "color-picker-element": "~0.0.3",
     "paper-dialog": "PolymerElements/paper-dialog#~1.0.3",
-    "paper-slider": "PolymerElements/paper-slider#~1.0.8"
+    "paper-slider": "PolymerElements/paper-slider#~1.0.8",
+    "firebase-element": "GoogleWebComponents/firebase-element#~1.0.9"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

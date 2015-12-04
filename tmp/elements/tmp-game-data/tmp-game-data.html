@@ -1,0 +1,21 @@
+<dom-module id="tmp-game-data">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+		<firebase-collection location="https://tankmultiplayer.firebaseio.com" data="{{data}}"></firebase-collection>
+	</template>
+	<script>
+		Polymer({
+			is: 'tmp-game-data',
+
+			properties: {
+				data: {
+					notify: true
+				}
+			}
+		});
+	</script>
+</dom-module>

@@ -295,7 +295,6 @@ There are three different main configurations the dialog allows, `circle`, `squa
         this.setColorWheel();
       },
       immediateColorChanged: function () {
-        console.log('immediateColorChanged');
         this.set('$.preview.style.backgroundColor', 'rgb(' + this.immediateColor[0] + ',' + this.immediateColor[1] + ',' + this.immediateColor[2] + ')');
         var maxZ = Math.max.bind(Math, 0);
         this.set('$.title.style.backgroundColor', 'rgb(' + maxZ(this.immediateColor[0] - 40) + ',' + maxZ(this.immediateColor[1] - 40) + ',' + maxZ(this.immediateColor[2] - 40) + ')');
