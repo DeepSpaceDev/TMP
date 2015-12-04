@@ -64,6 +64,7 @@
 					if(this.gameData[i].gameId === gameId) {
 						var map = this.gameData.map;
 						drawMap(map);
+						this.set('gameRunning', true);
 					}
 				}
 			},
