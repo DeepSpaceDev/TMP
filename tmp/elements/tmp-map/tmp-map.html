@@ -79,6 +79,9 @@
 			}
 
 			debugFields();
+
+			//Map ready call
+			mapReady();
 			
 		}
 		function debugFields(){
@@ -88,7 +91,7 @@
 				for(var i = 0; i < blocks.length; i++){
 					for(var j = 0; j < blocks[i].length; j++){
 
-						//define elements
+						//define elements & anti 2x2 fields
 						if(r == 1){
 							if(!blocks[i][j][4]){
 								blocks[i][j][0] = blocks[i - 1][j][0];
@@ -98,6 +101,10 @@
 								counter++;
 							}
 							
+							//anti 2x2
+
+							//if(i )
+
 						}
 						//search for related blocks of border elements and give them the same count
 						else if(r == 2){
