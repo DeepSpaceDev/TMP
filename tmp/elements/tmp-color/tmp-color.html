@@ -4,8 +4,13 @@
 			:host {
 				display: block;
 			}
+			paper-button {
+				margin: 8px 0;
+			}
 		</style>
-		<paper-button id="colorChooser" on-tap="open" raised>Choose color</paper-button>
+		<div class="buttons">
+			<paper-button id="colorChooser" on-tap="open" raised>Choose color</paper-button>
+		</div>
 		<paper-color-picker id="colorPicker" width="500" height="500" color="{{color}}"></paper-color-picker>
 	</template>
 	<script>
@@ -17,7 +22,8 @@
 					type: Boolean
 				},
 				color: {
-					type: Array
+					type: Array,
+					notify: true
 				}
 			},
 
