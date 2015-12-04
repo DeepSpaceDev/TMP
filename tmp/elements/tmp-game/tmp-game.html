@@ -36,6 +36,10 @@
 				}
 			},
 
+			listeners: {
+				'map-ready': '_uploadJSON'
+			},
+
 			startGlobalGame: function(e) {
 				this.set('gameRunning', true);
 
@@ -59,6 +63,16 @@
 					this.$.menuContainer.style.visibility = 'visible';
 					this.$.mapContainer.style.visibility = 'collapse';
 				}
+			},
+
+			_uploadJSON: function() {
+				for (var i = 0; i < this.gameData.length; i++) {
+					if(this.gameData[i].gameId === this.gameId) {
+						var game = this.gameData[i];
+						game.map = JSON.stringify(blocks);
+						this.splice('gameData', i, 1, game);
+					}
+				};
 			}
 		});
 	</script>
