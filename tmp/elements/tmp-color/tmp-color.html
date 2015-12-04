@@ -6,7 +6,7 @@
 			}
 		</style>
 		<paper-button id="colorChooser" on-tap="open" raised>Choose color</paper-button>
-		<paper-color-picker width="500" height="500" opened="{{opened}}" color="{{color}}"></paper-color-picker>
+		<paper-color-picker id="colorPicker" width="500" height="500" color="{{color}}"></paper-color-picker>
 	</template>
 	<script>
 		Polymer({
@@ -14,13 +14,16 @@
 
 			properties: {
 				opened: {
-					type: Boolean,
-					observer: '_openedChanged'
+					type: Boolean
 				},
 				color: {
 					type: Array
 				}
 			},
+
+			observers: [
+				'_openedChanged(color.*)'
+			],
 
 			_openedChanged: function() {
 				console.log(this.$.colorChooser);
@@ -34,7 +37,7 @@
 			},
 
 			open: function() {
-				this.set('opened', true);
+				this.$.colorPicker.open();
 			}
 		});
 	</script>

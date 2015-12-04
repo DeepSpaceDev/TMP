@@ -130,7 +130,7 @@ There are three different main configurations the dialog allows, `circle`, `squa
   </style>
   <template>
 
-  <paper-dialog id="dialog" class="color-picker-dialog" opened="{{opened}}">
+  <paper-dialog id="dialog" class="color-picker-dialog">
     <div id="container" class="layout vertical">
       <div id="header">
         <div id="title">Color Picker</div>
@@ -271,11 +271,6 @@ There are three different main configurations the dialog allows, `circle`, `squa
           type: String,
           value: 'hsv',
           notify: true
-        },
-        opened: {
-          type: Boolean,
-          notify: true,
-          value: false
         }
       },
       setColorWheel: function () {
@@ -322,7 +317,7 @@ There are three different main configurations the dialog allows, `circle`, `squa
       },
       setColor: function () {
         this.set('color', this.immediateColor);
-        this.set('opened', false);
+        this.$.dialog.close();
       },
       open: function () {
         if (this.color && this.color[1])
