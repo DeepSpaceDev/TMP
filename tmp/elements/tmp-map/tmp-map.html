@@ -81,7 +81,7 @@
 			debugFields();
 
 			//Map ready call
-			var event = new Event('map-ready');
+			document.querySelector("body").dispatchEvent(new CustomEvent('map-ready'));
 			
 		}
 		function debugFields(){
