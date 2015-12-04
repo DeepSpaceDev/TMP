@@ -1,0 +1,44 @@
+<dom-module id="tmp-color">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+		<paper-button id="colorChooser" on-tap="open" raised>Choose color</paper-button>
+		<paper-color-picker id="colorPicker" width="500" height="500" color="{{color}}"></paper-color-picker>
+	</template>
+	<script>
+		Polymer({
+			is: 'tmp-color',
+
+			properties: {
+				opened: {
+					type: Boolean
+				},
+				color: {
+					type: Array
+				}
+			},
+
+			observers: [
+				'_openedChanged(color.*)'
+			],
+
+			_openedChanged: function() {
+				console.log(this.$.colorChooser);
+				var red = this.color[0];
+				var green = this.color[1];
+				var blue = this.color[2];
+				if (red !== undefined || green !== undefined || blue !== undefined) {
+					var rgb = 'rgb('+ red + ', ' + green + ', ' + blue + ')';
+					$("#colorChooser").css('background', rgb);
+				}
+			},
+
+			open: function() {
+				this.$.colorPicker.open();
+			}
+		});
+	</script>
+</dom-module>

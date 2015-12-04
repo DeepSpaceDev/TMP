@@ -28,6 +28,7 @@
 			</paper-dropdown-menu>
 			<paper-input label="Width" type="number" min="8" max="25" auto-validate error-message="7 < width < 26" step="1" value="{{width}}"></paper-input>
 			<paper-input label="Height" value="[[_updateHeight(width)]]" disabled></paper-input>
+			<tmp-color></tmp-color>
 			<div class="buttons">
 				<paper-button class="green" raised>Local</paper-button>
 				<paper-button class="blue" raised>Global</paper-button>
