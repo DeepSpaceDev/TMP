@@ -56,86 +56,45 @@
 
 		var blocks = [];
 
-		function runLabAlgor(){
-			//pick random start at border
-			var curBl = "";
-			var x = blocks.length;
-			var y = blocks[0].length;
-			var cx = getRandomInt(0, x - 1);
-			var cy = getRandomInt(0, y - 1);
-			var run = true;
-			var count = 0;
+		function countborders(x, y, bx, by){
+			var returner = 0;
+			var xborder = (x + 1 == bx);
+			var yborder = (y + 1 == by);
 
-			while(run){
-				var newB = newBlock(x, y, cx, cy);
-
-				//$("#border" + newB["x"] + "_" + newB["y"]).addClass("red");
-
-				cx = newB["x"];
-				cy = newB["y"];
-
-				if(count == x * y * 35){run = false;} //average value
-				count++;
+			if(blocks[x][y][1]){
+				returner++;
 			}
 
-			debugFields();
+			if(blocks[x][y][4]){
+				returner++;
+			}
 
-			//Map ready call
-			document.querySelector("body").dispatchEvent(new CustomEvent('map-ready'));
-			
-		}
-		function debugFields(){
-			var counter = 0;
-
-			for(var r = 1; r < 4; r++){
-				for(var i = 0; i < blocks.length; i++){
-					for(var j = 0; j < blocks[i].length; j++){
-
-						//define elements & anti 2x2 fields
-						if(r == 1){
-							if(!blocks[i][j][4]){
-								blocks[i][j][0] = blocks[i - 1][j][0];
-							}
-							else{
-								blocks[i][j][0] = counter;
-								counter++;
-							}
-							
-							//anti 2x2
-
-							if(i + 1 < blocks.length && j + 1 < blocks[i].length){
-								if(!blocks[i + 1][j][4] && !blocks[i + 1][j + 1][1] && !blocks[i + 1][j + 1][4] && !blocks[i][j + 1][1]){
-									blocks[i + 1][j + 1][1] = true;
-								}
-							}
-
-						}
-						//search for related blocks of border elements and give them the same count
-						else if(r == 2){
-							if(j != 0){ //if no topelement
-								if(!blocks[i][j][1]){
-									debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
-								}
-							}
-						}
-						//merge different counts
-						else if(r == 3){
-							var topelement = (j == 0);
-							var leftelement = (i == 0);
-							var botelement = (j + 1 >= blocks.length);
-							var rightelement = (i + 1 >= blocks[i].length);
-
-							if(j != 0){ //no top element
-								if(blocks[i][j][0] != blocks[i][j - 1][0]){
-									blocks[i][j][1] = false;
-									debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
-								}
-							}
-						}						
-					}
+			if(!xborder){
+				if(blocks[x + 1][y][4]){
+					returner++;
 				}
 			}
+			else{
+				returner++;
+			}
 
+			if(!yborder){
+				if(blocks[x][y + 1][1]){
+					returner++;
+				}
+			}
+			else{
+				returner++;
+			}
+			return returner;
+		}
+		function border(nx, ny, bx, by, bed){
+			if(countborders(nx, ny, bx, by) <= bed){
+						return true;
+			}
+			else{
+				return false;			
+			}			
 		}
 		function debugRefactor(iscount, refcount){
 			for(var i = 0; i < blocks.length; i++){
@@ -164,8 +123,8 @@
 				}
 			}
 		}
-		function generateMap(bh){
-			var blockHori = ((bh == undefined) ? getRandomInt(8, 25) : bh);
+		function generateMap(b){
+			var blockHori = ((b == undefined) ? getRandomInt(8, 25) : b);
 			var blockVerti = parseInt((blockHori / 16) * 9); //16 : 9
 			var borderStr = 4;
 
@@ -302,45 +261,83 @@
 				return returner;
 			}
 		}
-		function border(nx, ny, bx, by, bed){
-			if(countborders(nx, ny, bx, by) <= bed){
-						return true;
-			}
-			else{
-				return false;			
-			}			
-		}
-		function countborders(x, y, bx, by){
-			var returner = 0;
-			var xborder = (x + 1 == bx);
-			var yborder = (y + 1 == by);
+		function runLabAlgor(){
+			//pick random start at border
+			var curBl = "";
+			var x = blocks.length;
+			var y = blocks[0].length;
+			var cx = getRandomInt(0, x - 1);
+			var cy = getRandomInt(0, y - 1);
+			var run = true;
+			var count = 0;
 
-			if(blocks[x][y][1]){
-				returner++;
+			while(run){
+				var newB = newBlock(x, y, cx, cy);
+
+				//$("#border" + newB["x"] + "_" + newB["y"]).addClass("red");
+
+				cx = newB["x"];
+				cy = newB["y"];
+
+				if(count == x * y * 35){run = false;} //average value
+				count++;
 			}
 
-			if(blocks[x][y][4]){
-				returner++;
-			}
+			//*******DEBUG MAP*******/
 
-			if(!xborder){
-				if(blocks[x + 1][y][4]){
-					returner++;
+			var counter = 0;
+
+			for(var r = 1; r < 4; r++){
+				for(var i = 0; i < blocks.length; i++){
+					for(var j = 0; j < blocks[i].length; j++){
+
+						//define elements & anti 2x2 fields
+						if(r == 1){
+							if(!blocks[i][j][4]){
+								blocks[i][j][0] = blocks[i - 1][j][0];
+							}
+							else{
+								blocks[i][j][0] = counter;
+								counter++;
+							}
+							
+							//anti 2x2
+
+							if(i + 1 < blocks.length && j + 1 < blocks[i].length){
+								if(!blocks[i + 1][j][4] && !blocks[i + 1][j + 1][1] && !blocks[i + 1][j + 1][4] && !blocks[i][j + 1][1]){
+									blocks[i + 1][j + 1][1] = true;
+								}
+							}
+
+						}
+						//search for related blocks of border elements and give them the same count
+						else if(r == 2){
+							if(j != 0){ //if no topelement
+								if(!blocks[i][j][1]){
+									debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
+								}
+							}
+						}
+						//merge different counts
+						else if(r == 3){
+							var topelement = (j == 0);
+							var leftelement = (i == 0);
+							var botelement = (j + 1 >= blocks.length);
+							var rightelement = (i + 1 >= blocks[i].length);
+
+							if(j != 0){ //no top element
+								if(blocks[i][j][0] != blocks[i][j - 1][0]){
+									blocks[i][j][1] = false;
+									debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
+								}
+							}
+						}						
+					}
 				}
 			}
-			else{
-				returner++;
-			}
 
-			if(!yborder){
-				if(blocks[x][y + 1][1]){
-					returner++;
-				}
-			}
-			else{
-				returner++;
-			}
-			return returner;
+			//Map ready event call
+			document.querySelector("body").dispatchEvent(new CustomEvent('map-ready'));	
 		}
 	</script>
 </dom-module>  
