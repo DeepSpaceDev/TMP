@@ -17,7 +17,9 @@
 		.border {
 			box-sizing: border-box;
 			position: absolute;
-			border: 1px dotted #555; /*debug*/
+			/*debug*/
+			padding: 10px 0 0 10px;
+			/*border: 1px dotted #555; /*debug*/
 		}
 		.btop{
 			border-top: 5px solid black;
@@ -36,7 +38,7 @@
 		}
 		</style>
 		<section>
-			<map></map>
+			<map id="map"></map>
 		</section>
 	</template>
 	<script src="../../js/main.js"></script>
@@ -45,27 +47,29 @@
 			is: 'tmp-map',
 
 			attached: function(){
-				generateMap(20);
+				generateMap(25);
 				mapTo_16_9();
+				runLabAlgor();
+				drawMap();
 			}
 		});
 
 		var blocks = [];
 
-		function runLabAlgor(x, y){
+		function runLabAlgor(){
 			//pick random start at border
 			var curBl = "";
+			var x = blocks.length;
+			var y = blocks[0].length;
 			var cx = getRandomInt(0, x - 1);
 			var cy = getRandomInt(0, y - 1);
 			var run = true;
 			var count = 0;
 
-			$("#border" + cx + cy).addClass("red");
-
 			while(run){
 				var newB = newBlock(x, y, cx, cy);
 
-				$("#border" + newB["x"] + "_" + newB["y"]).addClass("red");
+				//$("#border" + newB["x"] + "_" + newB["y"]).addClass("red");
 
 				cx = newB["x"];
 				cy = newB["y"];
@@ -73,7 +77,67 @@
 				if(count == x * y * 35){run = false;} //average value
 				count++;
 			}
+
+			debugFields();
 			
+		}
+		function debugFields(){
+			var counter = 0;
+
+			for(var r = 1; r < 4; r++){
+				for(var i = 0; i < blocks.length; i++){
+					for(var j = 0; j < blocks[i].length; j++){
+
+						//define elements
+						if(r == 1){
+							if(!blocks[i][j][4]){
+								blocks[i][j][0] = blocks[i - 1][j][0];
+							}
+							else{
+								blocks[i][j][0] = counter;
+								counter++;
+							}
+							
+						}
+						//search for related blocks of border elements and give them the same count
+						else if(r == 2){
+							if(j != 0){ //if no topelement
+								l(i + "_" + j + " " + blocks[i][j - 1][0]);
+								if(!blocks[i][j][1]){
+									debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
+								}
+							}
+						}
+						//merge different counts
+						else if(r == 3){
+							var topelement = (j == 0);
+							var leftelement = (i == 0);
+							var botelement = (j + 1 >= blocks.length);
+							var rightelement = (i + 1 >= blocks[i].length);
+
+							if(j != 0){ //no top element
+								if(blocks[i][j][0] != blocks[i][j - 1][0]){
+									blocks[i][j][1] = false;
+									debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
+								}
+							}
+						}						
+					}
+				}
+			}
+
+		}
+		function debugRefactor(iscount, refcount){
+			l(iscount + " " + refcount);
+			for(var i = 0; i < blocks.length; i++){
+				for(var j = 0; j < blocks[i].length; j++){
+					if(blocks[i][j][0] == refcount){
+						blocks[i][j][0] = iscount;
+						//debug
+						//$("#border" + i + "_" + j).html(blocks[i][j][0]);
+					}
+				}
+			} 
 		}
 		function drawMap(json){
 			var mpblocks = ((json == undefined) ? blocks : JSON.parse(json));
@@ -120,10 +184,10 @@
 				    	blocks[i][j] = [];
 
 				        blocks[i][j][0] = null;
-				        blocks[i][j][1] = true;
-				        blocks[i][j][2] = null;
-				        blocks[i][j][3] = null;
-				        blocks[i][j][4] = true;
+				        blocks[i][j][1] = false;
+				        blocks[i][j][2] = false;
+				        blocks[i][j][3] = false;
+				        blocks[i][j][4] = false;
 
 
 				        if(j == 0){
@@ -153,7 +217,6 @@
 				}
 
 				$("map").html(mapc);
-				drawMap(runLabAlgor(blockHori, blockVerti));
 		}
 		function mapTo_16_9(){
 			if(((window.innerWidth / 16) * 9) < window.outerHeight){
@@ -185,7 +248,7 @@
 				switch(type){
 					case 0:
 						blocks[cx][cy][1] = false;
-						if(border(nx, ny, x, y)){
+						if(border(nx, ny, x, y, 1)){
 							switch(getRandomInt(0, 2)){
 								case 0: blocks[nx][ny][1] = true; break;
 								case 1: blocks[nx][ny][4] = true; break;
@@ -195,7 +258,7 @@
 						break; //top
 					case 1: 
 						blocks[cx + 1][cy][4] = false;
-						if(border(nx, ny, x, y)){
+						if(border(nx, ny, x, y, 1)){
 							switch(getRandomInt(0, 2)){
 								case 0: blocks[nx][ny][1] = true; break;
 								case 1:	if(nx + 1 < x){blocks[nx + 1][ny][4] = true;} break;
@@ -205,7 +268,7 @@
 						break; //right
 					case 2: 
 						blocks[cx][cy + 1][1] = false;
-						if(border(nx, ny, x, y)){
+						if(border(nx, ny, x, y, 1)){
 							switch(getRandomInt(0, 2)){
 								case 0: blocks[nx][ny][4] = true; break;
 								case 1: if(ny + 1 < y){blocks[nx][ny + 1][1] = true;}break;
@@ -213,9 +276,9 @@
 							}
 						}
 						break; //bot
-					case 3: 
+					case 3:
 						blocks[cx][cy][4] = false;
-						if(border(nx, ny, x, y)){
+						if(border(nx, ny, x, y, 1)){
 							switch(getRandomInt(0, 2)){
 								case 0: blocks[nx][ny][1] = true; break;
 								case 1: blocks[nx][ny][4] = true; break;
@@ -225,17 +288,18 @@
 						break; //left
 				}
 
-				blocks[nx][ny][0] = true;
 				returner["x"] = nx;
 				returner["y"] = ny;
 				return returner;
 			}
 		}
-		function border(nx, ny, bx, by){
-			if(countborders(nx, ny, bx, by) <= 1){
+		function border(nx, ny, bx, by, bed){
+			if(countborders(nx, ny, bx, by) <= bed){
 						return true;
 			}
-			return false;			
+			else{
+				return false;			
+			}			
 		}
 		function countborders(x, y, bx, by){
 			var returner = 0;
