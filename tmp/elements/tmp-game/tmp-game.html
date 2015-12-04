@@ -10,10 +10,10 @@
 			}
 		</style>
 		<div id="mapContainer" style="visibility: collapse">
-			<tmp-map></tmp-map>
+			<tmp-map on-map-ready="_uploadJSON"></tmp-map>
 		</div>
 		<div id="menuContainer" style="visibility: visible">
-			<tmp-menu on-start-global-game="startGlobalGame"></tmp-menu>
+			<tmp-menu on-start-global-game="startGlobalGame" on-join-game="joinGame"></tmp-menu>
 		</div>
 		<tmp-game-data data="{{gameData}}"></tmp-game-data>
 	</template>
@@ -25,7 +25,7 @@
 				gameRunning: {
 					type: Boolean,
 					notify: true,
-					value: true,
+					value: false,
 					observer: '_gameStatusChanged'
 				},
 				gameData: {
@@ -43,9 +43,6 @@
 			startGlobalGame: function(e) {
 				this.set('gameRunning', true);
 
-				$("map").html("");
-				generateMap(e.detail.width);
-
 				var gameId = generateGameId(6);
 				this.set('gameId', gameId);
 
@@ -53,6 +50,22 @@
 					gameId: gameId,
 					maxPlayers: e.detail.maxPlayers
 				});
+
+				$("map").html("");
+				generateMap(e.detail.width);
+				mapTo_16_9();
+				runLabAlgor();
+				drawMap();
+			},
+
+			joinGame: function(e) {
+				var gameId = e.detail.gameId;
+				for (var i = 0; i < this.gameData.length; i++) {
+					if(this.gameData[i].gameId === gameId) {
+						var map = this.gameData.map;
+						drawMap(map);
+					}
+				}
 			},
 
 			_gameStatusChanged: function(){
@@ -65,14 +78,13 @@
 				}
 			},
 
-			_uploadJSON: function() {
+			_uploadJSON: function(e) {
 				for (var i = 0; i < this.gameData.length; i++) {
 					if(this.gameData[i].gameId === this.gameId) {
-						var game = this.gameData[i];
-						game.map = JSON.stringify(blocks);
-						this.splice('gameData', i, 1, game);
+						var map = JSON.stringify(blocks);
+						this.set('gameData.' + i + '.map', map);
 					}
-				};
+				}
 			}
 		});
 	</script>
