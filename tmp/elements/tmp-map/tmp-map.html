@@ -46,11 +46,20 @@
 		Polymer({
 			is: 'tmp-map',
 
+			properties: {
+				ext: {
+					type: Boolean,
+					value: false
+				}
+			},
+
 			attached: function(){
-				generateMap();
-				mapTo_16_9();
-				runLabAlgor();
-				drawMap();
+				if(this.ext){
+					generateMap();
+					mapTo_16_9();
+					runLabAlgor();
+					drawMap();
+				}
 			}
 		});
 
@@ -115,6 +124,12 @@
 					if(bl[1]){
 						$("#border" + i + "_" + j).addClass("btop");
 					}
+					if(bl[2]){
+						$("#border" + i + "_" + j).addClass("bright");
+					}
+					if(bl[3]){
+						$("#border" + i + "_" + j).addClass("bbottom");
+					}
 					if(bl[4]){
 						$("#border" + i + "_" + j).addClass("bleft");
 					}
@@ -145,7 +160,7 @@
 				    	+ "% + " + ((blockVerti * borderStr) / 2 - 5) + "px); left: calc(" + posx 
 				    	+ "% + " + ((blockHori * borderStr) / 2) + "px); margin-top: -" + mgtop
 				    	+ "px; margin-left: -" + mgleft
-				    	+ "px;' class='tmp-map border ";
+				    	+ "px;' class='tmp-map border'>";
 				       	
 				    	blocks[i][j] = [];
 
@@ -157,22 +172,18 @@
 
 
 				        if(j == 0){
-				        	mapc += "btop ";
 				        	blocks[i][j][1] = true;
 				        } 
 				        if(i == blockHori - 1){
-				        	mapc += "bright ";
 				        	blocks[i][j][2] = true;
 				        }
 				        if(j == blockVerti - 1){
-				        	mapc += "bbottom ";
 				        	blocks[i][j][3] = true;
 				        }
 				        if(i == 0){
-				        	mapc += "bleft ";
 				        	blocks[i][j][4] = true;
 				        }
-				        mapc += "'></div>"
+				        mapc += "</div>"
 				        posy = posy + 100 / blockVerti;
 				        mgtop = mgtop + borderStr;
 				    }
