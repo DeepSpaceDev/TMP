@@ -47,7 +47,7 @@
 			is: 'tmp-map',
 
 			attached: function(){
-				generateMap(25);
+				generateMap();
 				mapTo_16_9();
 				runLabAlgor();
 				drawMap();
@@ -103,17 +103,16 @@
 							
 							//anti 2x2
 
-							/*if(i + 1 < blocks.length && j + 1 < blocks[i].length){
-								if(!blocks[i + 1][j][1] && !blocks[i + 1][j + 1][1] && !blocks[i + 1][j + 1][4] && !blocks[i][j + 1][1]){
+							if(i + 1 < blocks.length && j + 1 < blocks[i].length){
+								if(!blocks[i + 1][j][4] && !blocks[i + 1][j + 1][1] && !blocks[i + 1][j + 1][4] && !blocks[i][j + 1][1]){
 									blocks[i + 1][j + 1][1] = true;
 								}
-							}*/
+							}
 
 						}
 						//search for related blocks of border elements and give them the same count
 						else if(r == 2){
 							if(j != 0){ //if no topelement
-								l(i + "_" + j + " " + blocks[i][j - 1][0]);
 								if(!blocks[i][j][1]){
 									debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
 								}
@@ -139,7 +138,6 @@
 
 		}
 		function debugRefactor(iscount, refcount){
-			l(iscount + " " + refcount);
 			for(var i = 0; i < blocks.length; i++){
 				for(var j = 0; j < blocks[i].length; j++){
 					if(blocks[i][j][0] == refcount){
