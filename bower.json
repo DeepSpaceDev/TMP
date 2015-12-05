@@ -2,7 +2,8 @@
   "name": "tmp-game",
   "version": "1.0.3",
   "authors": [
-    "Anonymous <anonymous@example.com>"
+    "Dennis Kugelmann <kugelmann.dennis@gmail.com>",
+    "Sebastian Schneider"
   ],
   "description": "An element providing a solution to no problem in particular.",
   "keywords": [
