@@ -317,7 +317,14 @@
 
 							if(i + 1 < blocks.length && j + 1 < blocks[i].length){
 								if(!blocks[i + 1][j][4] && !blocks[i + 1][j + 1][1] && !blocks[i + 1][j + 1][4] && !blocks[i][j + 1][1]){
-									blocks[i + 1][j + 1][1] = true;
+									var rd = getRandomInt(0, 3);
+									l(rd + " " + i + "-" + j);
+									switch(rd){	
+										case 0: blocks[i + 1][j + 1][1] = true; break;
+										case 1: blocks[i + 1][j + 1][4] = true; break;
+										case 2: blocks[i][j + 1][1] = true; break;
+										case 3: blocks[i + 1][j][4] = true; break;
+									}
 								}
 							}
 
