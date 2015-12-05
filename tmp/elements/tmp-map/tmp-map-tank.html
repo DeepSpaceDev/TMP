@@ -1,0 +1,48 @@
+<dom-module id="tmp-tank">
+	<template>
+		<style>
+			:host {
+				display: block;
+				position: absolute;
+			}
+			#tank{
+				height: 25px;
+				width: 25px;
+				background-color: grey;
+			}
+		</style>
+	<section>
+		<div id="tank"></div>
+	</section>
+	</template>
+	<script>
+		Polymer({
+			is: 'tmp-tank',
+
+			attached: function(){
+				regKeyListener(this.id);
+			}
+		});
+
+		function regKeyListener(id){
+			var forward, backward;
+
+			window.onkeydown = function(e) {
+   				var key = e.keyCode ? e.keyCode : e.which;
+   				if(key == 83 && !backward){
+   					backward = setInterval(function(){
+   						var ctop = ((document.querySelector("#" + id).style.top == "") ? 0 : parseFloat(document.querySelector("#" + id).style.top.replace("px", "")));
+   						document.querySelector("#" + id).style.top = (ctop + 1) + "px";
+   					}, 1);
+   				}
+   			}
+   			window.onkeyup = function(e){
+   				var key = e.keyCode ? e.keyCode : e.which;
+   				if(key == 83){
+   					clearInterval(backward);
+   					backward = null;
+   				}
+   			}
+		}
+	</script>
+</dom-module>
