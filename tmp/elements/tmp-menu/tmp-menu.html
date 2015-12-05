@@ -21,7 +21,7 @@
 			<paper-item>Settings</paper-item>
 			<paper-dropdown-menu label="Player">
 				<paper-menu class="dropdown-content">
-					<template is="dom-repeat" items={{dummyArray}}>
+					<template is="dom-repeat" items={{_dummyArray}}>
 						<paper-item>Spieler&nbsp;<span>[[addOne(index)]]</span></paper-item>
 					</template>
 				</paper-menu>
@@ -99,9 +99,10 @@
 			},
 
 			_changePlayerNumber: function() {
-				this.splice('dummyArray', 0, this.dummyArray.length);
-				for(i=0; i<this.maxPlayers; i++) {
-					this.push('dummyArray', '');
+				console.log(this.get('_dummyArray'));
+				this.splice('_dummyArray', 0, this._dummyArray.length);
+				for(i=0; i<this._maxPlayers; i++) {
+					this.push('_dummyArray', '');
 				}
 			},
 
