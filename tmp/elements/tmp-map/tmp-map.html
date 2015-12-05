@@ -344,31 +344,51 @@
 							var botelement = (j + 1 >= blocks[i].length);
 							var rightelement = (i + 1 >= blocks.length);
 							
-							//noch durchmischen
-							if(!topelement){
-								if(blocks[i][j][0] != blocks[i][j - 1][0]){
-									blocks[i][j][1] = false;
-									debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
+							//random order 
+							var t1 = function(){
+								if(!topelement){
+									if(blocks[i][j][0] != blocks[i][j - 1][0]){
+										blocks[i][j][1] = false;
+										debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
+									}
 								}
 							}
-							if(!rightelement){
-								if(blocks[i][j][0] != blocks[i + 1][j][0]){
-									blocks[i + 1][j][4] = false;
-									debugRefactor(blocks[i][j][0], blocks[i + 1][j][0]);
+							var t2 = function(){
+								if(!rightelement){
+									if(blocks[i][j][0] != blocks[i + 1][j][0]){
+										blocks[i + 1][j][4] = false;
+										debugRefactor(blocks[i][j][0], blocks[i + 1][j][0]);
+									}
 								}
 							}
-							if(!botelement){
-								if(blocks[i][j][0] != blocks[i][j + 1][0]){
-									blocks[i][j + 1][1] = false;
-									debugRefactor(blocks[i][j][0], blocks[i][j + 1][0]);
+							var t3 = function(){
+								if(!botelement){
+									if(blocks[i][j][0] != blocks[i][j + 1][0]){
+										blocks[i][j + 1][1] = false;
+										debugRefactor(blocks[i][j][0], blocks[i][j + 1][0]);
+									}
 								}
 							}
-							if(!leftelement){
-								if(blocks[i][j][0] != blocks[i - 1][j][0]){
-									blocks[i][j][4] = false;
-									debugRefactor(blocks[i][j][0], blocks[i - 1][j][0]);
+							var t4 = function(){
+								if(!leftelement){
+									if(blocks[i][j][0] != blocks[i - 1][j][0]){
+										blocks[i][j][4] = false;
+										debugRefactor(blocks[i][j][0], blocks[i - 1][j][0]);
+									}
 								}
 							}
+
+							//http://stackoverflow.com/questions/34111676/javascript-random-order-functions/34111912#34111912
+							array = [t1, t2, t3, t4];
+
+							array = array.map(function (a, i, o) {
+							    var j = (Math.random() * (o.length - i) | 0) + i,
+							        t = o[j];
+							    o[j] = a;
+							    return t;
+							});
+
+							array.forEach(function (a){ a();});
 						}						
 					}
 				}
