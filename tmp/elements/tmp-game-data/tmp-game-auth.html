@@ -8,7 +8,6 @@
 		<firebase-auth id="auth"
 					   auto-login
 					   location="https://tankmultiplayer.firebaseio.com"
-					   provider="email"
 					   user="{{userData}}">
 		</firebase-auth>
 	</template>
@@ -19,14 +18,8 @@
 			properties: {
 				userData: {
 					type: Object,
-					notify: true,
-					readOnly: true,
-					observer: 'userChanged'
+					notify: true
 				}
-			},
-
-			userChanged: function() {
-				console.log(this.userData);
 			},
 
 			attached: function() {
