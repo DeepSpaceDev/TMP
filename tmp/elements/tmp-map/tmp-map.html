@@ -318,7 +318,6 @@
 							if(i + 1 < blocks.length && j + 1 < blocks[i].length){
 								if(!blocks[i + 1][j][4] && !blocks[i + 1][j + 1][1] && !blocks[i + 1][j + 1][4] && !blocks[i][j + 1][1]){
 									var rd = getRandomInt(0, 3);
-									l(rd + " " + i + "-" + j);
 									switch(rd){	
 										case 0: blocks[i + 1][j + 1][1] = true; break;
 										case 1: blocks[i + 1][j + 1][4] = true; break;
@@ -339,15 +338,35 @@
 						}
 						//merge different counts
 						else if(r == 3){
+
 							var topelement = (j == 0);
 							var leftelement = (i == 0);
-							var botelement = (j + 1 >= blocks.length);
-							var rightelement = (i + 1 >= blocks[i].length);
-
-							if(j != 0){ //no top element
+							var botelement = (j + 1 >= blocks[i].length);
+							var rightelement = (i + 1 >= blocks.length);
+							
+							//noch durchmischen
+							if(!topelement){
 								if(blocks[i][j][0] != blocks[i][j - 1][0]){
 									blocks[i][j][1] = false;
 									debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
+								}
+							}
+							if(!rightelement){
+								if(blocks[i][j][0] != blocks[i + 1][j][0]){
+									blocks[i + 1][j][4] = false;
+									debugRefactor(blocks[i][j][0], blocks[i + 1][j][0]);
+								}
+							}
+							if(!botelement){
+								if(blocks[i][j][0] != blocks[i][j + 1][0]){
+									blocks[i][j + 1][1] = false;
+									debugRefactor(blocks[i][j][0], blocks[i][j + 1][0]);
+								}
+							}
+							if(!leftelement){
+								if(blocks[i][j][0] != blocks[i - 1][j][0]){
+									blocks[i][j][4] = false;
+									debugRefactor(blocks[i][j][0], blocks[i - 1][j][0]);
 								}
 							}
 						}						
