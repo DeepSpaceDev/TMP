@@ -16,6 +16,7 @@
 			<tmp-menu on-start-global-game="startGlobalGame" on-join-game="joinGame"></tmp-menu>
 		</div>
 		<tmp-game-data data="{{gameData}}"></tmp-game-data>
+		<tmp-game-auth userData="{{user}}"></tmp-game-auth>
 	</template>
 	<script>
 		Polymer({
@@ -33,11 +34,15 @@
 				},
 				gameId: {
 					type: String
+				},
+				user: {
+					type: Object,
+					observer: 'userChanged'
 				}
 			},
 
-			listeners: {
-				'map-ready': '_uploadJSON'
+			userChanged: function() {
+				console.log(this.user);
 			},
 
 			startGlobalGame: function(e) {

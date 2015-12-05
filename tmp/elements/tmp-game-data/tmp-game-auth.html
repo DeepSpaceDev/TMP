@@ -1,0 +1,37 @@
+<dom-module id="tmp-game-auth">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+		<firebase-auth id="auth"
+					   auto-login
+					   location="https://tankmultiplayer.firebaseio.com"
+					   provider="email"
+					   user="{{userData}}">
+		</firebase-auth>
+	</template>
+	<script>
+		Polymer({
+			is: 'tmp-game-auth',
+
+			properties: {
+				userData: {
+					type: Object,
+					notify: true,
+					readOnly: true,
+					observer: 'userChanged'
+				}
+			},
+
+			userChanged: function() {
+				console.log(this.userData);
+			},
+
+			attached: function() {
+				this.$.auth.login();
+			}
+		});
+	</script>
+</dom-module>

@@ -99,7 +99,6 @@
 			},
 
 			_changePlayerNumber: function() {
-				console.log(this.get('_dummyArray'));
 				this.splice('_dummyArray', 0, this._dummyArray.length);
 				for(i=0; i<this._maxPlayers; i++) {
 					this.push('_dummyArray', '');
