@@ -30,3 +30,12 @@ function getRotation(obj) {
   } else { var angle = 0; }
   return (angle < 0) ? angle +=360 : angle;
 }
+function intersects(obj1, obj2) {
+  var rect1 = obj1.getBoundingClientRect();
+  var rect2 = obj2.getBoundingClientRect();
+
+  return !(rect1.right < rect2.left || 
+           rect1.left > rect2.right ||
+           rect1.bottom < rect2.top ||
+           rect1.top > rect2.bottom);
+}
