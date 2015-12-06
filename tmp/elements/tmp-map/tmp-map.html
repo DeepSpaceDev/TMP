@@ -1,5 +1,5 @@
 <dom-module id="tmp-map">
-	<!--COPYRIGHT 2015 Sebastian Schneider & Dennis Kugelmann, all rights reserved -->
+	<!--COPYRIGHT 2015 Sebastian Schneider, all rights reserved -->
 	<template>
 		<style>
 		section {
@@ -17,9 +17,6 @@
 		.border {
 			box-sizing: border-box;
 			position: absolute;
-			/*debug*/
-			padding: 10px 0 0 10px;
-			/*border: 1px dotted #555; /*debug*/
 		}
 		.btop{
 			border-top: 5px solid black;
@@ -111,8 +108,6 @@
 				for(var j = 0; j < blocks[i].length; j++){
 					if(blocks[i][j][0] == refcount){
 						blocks[i][j][0] = iscount;
-						//debug
-						//$("#border" + i + "_" + j).html(blocks[i][j][0]);
 					}
 				}
 			} 
@@ -286,8 +281,6 @@
 			while(run){
 				var newB = newBlock(x, y, cx, cy);
 
-				//$("#border" + newB["x"] + "_" + newB["y"]).addClass("red");
-
 				cx = newB["x"];
 				cy = newB["y"];
 
@@ -378,7 +371,7 @@
 								}
 							}
 
-							//http://stackoverflow.com/questions/34111676/javascript-random-order-functions/34111912#34111912
+							//http://stackoverflow.com/questions/34111676/javascript-random-order-functions/34111912
 							array = [t1, t2, t3, t4];
 
 							array = array.map(function (a, i, o) {
