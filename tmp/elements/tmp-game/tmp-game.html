@@ -19,6 +19,8 @@
 		<tmp-game-auth userData="{{user}}"></tmp-game-auth>
 	</template>
 	<script>
+		var blocks = []; //Map blocks, global access
+
 		Polymer({
 			is: 'tmp-game',
 
@@ -48,7 +50,7 @@
 			startGlobalGame: function(e) {
 				this.set('gameRunning', true);
 
-				var gameId = generateGameId(6);
+				var gameId = getRandomString(6);
 				this.set('gameId', gameId);
 
 				this.push('gameData', {
