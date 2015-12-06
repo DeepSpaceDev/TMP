@@ -26,11 +26,15 @@
 					</template>
 				</paper-menu>
 			</paper-dropdown-menu>
-			<paper-input label="Width" type="number" min="8" max="25" 
-						 auto-validate error-message="7 < width < 26" 
-						 step="1" value="{{width}}">
-			</paper-input>
-			<paper-input label="Height" value="[[_updateHeight(width)]]" disabled></paper-input>
+			<br>
+			<paper-checkbox checked="{{randomWidth}}">Random width</paper-checkbox>
+			<template is="dom-if" if={{!randomWidth}}>
+				<paper-input label="Width" type="number" min="8" max="25" 
+							 auto-validate error-message="7 < width < 26" 
+							 step="1" value="{{width}}">
+				</paper-input>
+				<paper-input label="Height" value="[[_updateHeight(width)]]" disabled></paper-input>
+			</template>
 			<tmp-color color="{{color}}"></tmp-color>
 			<div class="buttons">
 				<paper-button class="green" raised>Local</paper-button>
@@ -64,6 +68,10 @@
 					value: 50,
 					readOnly: true
 				},
+				randomWidth: {
+					type: Boolean,
+					value: false
+				},
 				width: {
 					type: Number,
 					notify: true,
@@ -82,9 +90,10 @@
 			},
 
 			startGlobalGame: function() {
+				var width = ((this.randomWidth) ? true : this.width);
 				this.fire('start-global-game', {
 					maxPlayers: this.players,
-					width: this.width
+					width: width
 				});
 			},
 

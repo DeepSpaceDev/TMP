@@ -135,7 +135,7 @@
 			}
 		}
 		function generateMap(b){
-			var blockHori = ((b == undefined) ? getRandomInt(8, 25) : b);
+			var blockHori = ((b == undefined || b == true) ? getRandomInt(8, 25) : b);
 			var blockVerti = parseInt((blockHori / 16) * 9); //16 : 9
 			var borderStr = 4;
 
