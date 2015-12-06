@@ -39,3 +39,6 @@ function intersects(obj1, obj2) {
            rect1.bottom < rect2.top ||
            rect1.top > rect2.bottom);
 }
+function qs(selectorString) {
+  return document.querySelector(selectorString);
+}
