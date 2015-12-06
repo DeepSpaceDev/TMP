@@ -100,7 +100,7 @@
 		var transform = 0;
 
 		function customiseTank(elem){
-			document.querySelector("tmp-map").addEventListener("map-ready", function(){
+			qs("tmp-map").addEventListener("map-ready", function(){
 				transform = (($("#border0_0").height() * 0.6) / 106.05);
 				elem.style.transform = "scale(" + transform + ")";
 			});
@@ -156,8 +156,8 @@
    			}
 		}
 		function move(type, id){
-			var ctop = ((document.querySelector("#" + id).style.top == "") ? 0 : parseFloat(document.querySelector("#" + id).style.top.replace("px", "")));
-			var cleft =  ((document.querySelector("#" + id).style.left == "") ? 0 : parseFloat(document.querySelector("#" + id).style.left.replace("px", "")));
+			var ctop = ((qs("#" + id).style.top == "") ? 0 : parseFloat(qs("#" + id).style.top.replace("px", "")));
+			var cleft =  ((qs("#" + id).style.left == "") ? 0 : parseFloat(qs("#" + id).style.left.replace("px", "")));
 			var tmove = 0;
 			var lmove = 0;
 			var rotation = getRotation($("#" + id)) * (Math.PI/180);
@@ -171,8 +171,8 @@
 				lmove = Math.sin(rotation) * -1 * movespeed				
 				tmove = Math.cos(rotation) * movespeed;
 			}
-			document.querySelector("#" + id).style.top = (ctop + tmove) + "px";
-			document.querySelector("#" + id).style.left = (cleft + lmove) + "px";
+			qs("#" + id).style.top = (ctop + tmove) + "px";
+			qs("#" + id).style.left = (cleft + lmove) + "px";
 		}
 		function rotate(type, id){
 			var rotspeed = 2.2;
@@ -184,7 +184,7 @@
 			else if(type == "left"){
 				nrotate = nrotate - rotspeed;
 			}
-			document.querySelector("#" + id).style.transform = "rotate(" + nrotate + "deg) scale(" + transform + ")";
+			qs("#" + id).style.transform = "rotate(" + nrotate + "deg) scale(" + transform + ")";
 		}
 	</script>
 </dom-module>
