@@ -27,7 +27,7 @@
 			  <use height="80.0" transform="matrix(1.0, 0.0, 0.0, 1.0, -30.0, -40.0)" width="60.0" xlink:href="#shape0"/>
 			</g>
 			<g id="shape0" transform="matrix(1, 0, 0, 1, 30.0, 40.0)">
-			  <path d="M30.0 -40.0 L30.0 40.0 -30.0 40.0 -30.0 -40.0 30.0 -40.0" fill="#ffffff" fill-rule="evenodd" stroke="none"/>
+			  <path class="colorw" d="M30.0 -40.0 L30.0 40.0 -30.0 40.0 -30.0 -40.0 30.0 -40.0" fill="#ffffff" fill-rule="evenodd" stroke="none"/>
 			</g>
 			<g id="shape1" transform="matrix(1, 0, 0, 1, 30.5, 40.5)">
 			  <path d="M17.5 -40.0 L30.0 -40.0 30.0 40.0 17.5 40.0 17.5 -40.0 M-17.5 40.0 L-30.0 40.0 -30.0 -40.0 -19.55 -39.95 -17.15 -39.9 -17.45 37.5 -17.5 37.5 -17.5 40.0" fill="url(#gradient0)" fill-rule="evenodd" stroke="none"/>
@@ -57,7 +57,7 @@
 			  <use height="77.5" transform="matrix(1.0, 0.0, 0.0, 1.0, -22.5, -38.75)" width="45.0" xlink:href="#shape2"/>
 			</g>
 			<g id="shape2" transform="matrix(1, 0, 0, 1, 22.5, 38.75)">
-			  <path d="M7.5 -5.0 Q12.15 -3.4 15.9 0.35 22.5 6.95 22.5 16.25 22.5 25.55 15.9 32.15 9.3 38.75 0.0 38.75 -9.3 38.75 -15.9 32.15 -22.5 25.55 -22.5 16.25 -22.5 6.95 -15.9 0.35 -12.15 -3.4 -7.5 -5.0 L-7.5 -38.75 7.5 -38.75 7.5 -5.0" fill="#ffffff" fill-rule="evenodd" stroke="none"/>
+			  <path class="colorw" d="M7.5 -5.0 Q12.15 -3.4 15.9 0.35 22.5 6.95 22.5 16.25 22.5 25.55 15.9 32.15 9.3 38.75 0.0 38.75 -9.3 38.75 -15.9 32.15 -22.5 25.55 -22.5 16.25 -22.5 6.95 -15.9 0.35 -12.15 -3.4 -7.5 -5.0 L-7.5 -38.75 7.5 -38.75 7.5 -5.0" fill="#ffffff" fill-rule="evenodd" stroke="none"/>
 			</g>
 			<g id="shape3" transform="matrix(1, 0, 0, 1, 22.5, 55.0)">
 			  <path d="M7.5 -21.25 Q12.15 -19.65 15.9 -15.9 22.5 -9.3 22.5 0.0 22.5 9.3 15.9 15.9 9.3 22.5 0.0 22.5 -9.3 22.5 -15.9 15.9 -22.5 9.3 -22.5 0.0 -22.5 -9.3 -15.9 -15.9 -12.15 -19.65 -7.5 -21.25 L0.0 0.0 7.5 -21.25" fill="url(#gradient2)" fill-rule="evenodd" stroke="none"/>
@@ -89,6 +89,10 @@
 				},
 				ttransform: {
 					type: Number
+				},
+				tcolor: {
+					type: String,
+					value: "#bbbbff"
 				}
 			},
 
@@ -97,6 +101,7 @@
 				if(this.client){
 					this.regKeyListener(this.id);
 				}
+				$(".colorw").attr("fill", this.tcolor);
 			},
 			move: function(type, id) {
 				var ctop = ((qs("#" + id).style.top == "") ? 0 : parseFloat(qs("#" + id).style.top.replace("px", "")));
@@ -128,8 +133,10 @@
 				}
 				else if(type == "left"){
 					nrotate = nrotate - rotspeed;
-				}				
-				qs("#" + id).style.transform = "rotate(" + nrotate + "deg) scale(" + this.ttransform + ")";
+				}
+				if(!this.intersectBorder(id)){			
+					qs("#" + id).style.transform = "rotate(" + nrotate + "deg) scale(" + this.ttransform + ")";
+				}
 			},
 			regKeyListener: function(id) {
 				var forward, backward, right, left;
@@ -193,20 +200,23 @@
 					for(var j = 0; j < blocks[i].length; j++){
 						var belem = qs("#border" + i + "_" + j);
 						var jbelem = $("#border" + i + "_" + j);
+						var tank = qs("#" + id);
+						var jtank = $("#" + id);
 						var baserect = qs("#" + id + " .base").getBoundingClientRect();
 
 						if(intersects(qs("#" + id),	belem)){
 							if(jbelem.hasClass("btop")){
-								if(baserect.top  < (jbelem.offset().top + (borderStr / 2))){
-									l("top");
-									return true;
-								}
-								else if(baserect.bottom > (jbelem.offset().top + (borderStr / 2))){
-									l("bot");
+								if(baserect.top  < (jbelem.offset().top + (borderStr / 2)) && baserect.bottom > (jbelem.offset().top + (borderStr / 2))){
+									if(baserect.top + 1 < (jbelem.offset().top + (borderStr / 2))){
+										tank.style.top = (parseInt(tank.style.top.replace("px", "")) - 1) + "px";
+									}
+									if(baserect.bottom - 1 > (jbelem.offset().top + (borderStr / 2))){
+										tank.style.top = (parseInt(tank.style.top.replace("px", "")) + 1) + "px";
+									}
 									return true;
 								}
 							}
-							if(jbelem.hasClass("bleft")){
+							/*if(jbelem.hasClass("bleft")){
 								if(baserect.left  < (jbelem.offset().left + (borderStr / 2)) && //borderstrenght --> tmp-map
 									baserect.right > (jbelem.offset().left + (borderStr / 2))){
 									l(true);
