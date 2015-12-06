@@ -97,15 +97,15 @@
 			},
 
 			attached: function(){
-				this.customiseTank(this);
+				this.customiseTank();
 				if(this.client){
-					this.regKeyListener(this.id);
+					this.regKeyListener();
 				}
 				$(".colorw").attr("fill", this.tcolor);
 			},
 			move: function(type, id) {
-				var ctop = ((qs("#" + id).style.top == "") ? 0 : parseFloat(qs("#" + id).style.top.replace("px", "")));
-				var cleft =  ((qs("#" + id).style.left == "") ? 0 : parseFloat(qs("#" + id).style.left.replace("px", "")));
+				var ctop = ((this.style.top == "") ? 0 : parseFloat(this.style.top.replace("px", "")));
+				var cleft =  ((this.style.left == "") ? 0 : parseFloat(this.style.left.replace("px", "")));
 				var tmove = 0;
 				var lmove = 0;
 				var rotation = getRotation($("#" + id)) * (Math.PI/180);
@@ -120,91 +120,92 @@
 					tmove = Math.cos(rotation) * movespeed;
 				}
 				if(!this.intersectBorder(id)){
-					qs("#" + id).style.top = (ctop + tmove) + "px";
-					qs("#" + id).style.left = (cleft + lmove) + "px";
+					this.style.top = (ctop + tmove) + "px";
+					this.style.left = (cleft + lmove) + "px";
 				}
 			},			
 			rotate: function(type, id) {
 				var rotspeed = 2.2;
-				var crotate = getRotation($("#" + id));
+				var crotate = getRotation($('#' + id));
 				var nrotate = crotate;
-				if(type == "right"){
+				if(type == "right") {
 					nrotate = nrotate + rotspeed;
 				}
-				else if(type == "left"){
+				else if(type == "left") {
 					nrotate = nrotate - rotspeed;
 				}
-				if(!this.intersectBorder(id)){			
-					qs("#" + id).style.transform = "rotate(" + nrotate + "deg) scale(" + this.ttransform + ")";
+				if(!this.intersectBorder(id)) {			
+					this.style.transform = "rotate(" + nrotate + "deg) scale(" + this.ttransform + ")";
 				}
 			},
-			regKeyListener: function(id) {
+			regKeyListener: function() {
 				var forward, backward, right, left;
 				var rot;
+				var id = this.id;
 
 				var interlenght = 10;
 				var that = this;
 
 				window.onkeydown = function(e) {
 	   				var key = e.keyCode ? e.keyCode : e.which;
-	   				if(key == 83 && !backward){
-	   					backward = setInterval(function(){
+	   				if((key == 83 || key == 40) && !backward) {
+	   					backward = setInterval(function() {
 	   						that.move("backward", id);
 	   					}, interlenght);
 	   				}
-	   				if(key == 87 && !forward){
-	   					forward = setInterval(function(){
+	   				if((key == 87 || key == 38) && !forward) {
+	   					forward = setInterval(function() {
 	   						that.move("forward", id);
 	   					}, interlenght);
 	   				}
-					if(key == 68 && !right){
-						right = setInterval(function(){
+					if((key == 68 || key == 39) && !right) {
+						right = setInterval(function() {
 						 	that.rotate("right", id);
 						 }, interlenght);
 					}
-	   				if(key == 65 && !left){
-	   					left = setInterval(function(){
+	   				if((key == 65 || key == 37) && !left) {
+	   					left = setInterval(function() {
 	   					 	that.rotate("left", id);
 	   					 }, interlenght);
 	   				}				
 	   			}
-	   			window.onkeyup = function(e){
+	   			window.onkeyup = function(e) {
 	   				var key = e.keyCode ? e.keyCode : e.which;
-	   				if(key == 83){
+	   				if(key == 83 || key == 40) {
 	   					clearInterval(backward);
 	   					backward = null;
 	   				}
-	   				if(key == 87){
+	   				if(key == 87 || key == 38) {
 	   					clearInterval(forward);
 	   					forward = null;
 	   				}
-	   				if(key == 68){
+	   				if(key == 68 || key == 39) {
 	   					clearInterval(right);
 	   					right = null;
 	   				}
-	   				if(key == 65){
+	   				if(key == 65 || key == 37) {
 	   					clearInterval(left);
 	   					left = null;
 	   				}
 	   			}
 			},
-			customiseTank: function(elem) {
+			customiseTank: function() {
 				var that = this;
 				qs("tmp-map").addEventListener("map-ready", function(){
 					that.set('ttransform', (($("#border0_0").height() * 0.6) / 106.05));
-					elem.style.transform = "scale(" + that.ttransform + ")";
+					that.style.transform = "scale(" + that.ttransform + ")";
 				});
 			},
 			intersectBorder: function(id){
+				var tank = this;
+				var jtank = $("#" + id);
 				for(var i = 0; i < blocks.length; i++){
 					for(var j = 0; j < blocks[i].length; j++){
 						var belem = qs("#border" + i + "_" + j);
 						var jbelem = $("#border" + i + "_" + j);
-						var tank = qs("#" + id);
-						var jtank = $("#" + id);
 						var baserect = qs("#" + id + " .base").getBoundingClientRect();
 
-						if(intersects(qs("#" + id),	belem)){
+						if(intersects(this,	belem)){
 							if(jbelem.hasClass("btop")){
 								if(baserect.top  < (jbelem.offset().top + (borderStr / 2)) && baserect.bottom > (jbelem.offset().top + (borderStr / 2))){
 									if(baserect.top + 1 < (jbelem.offset().top + (borderStr / 2))){
