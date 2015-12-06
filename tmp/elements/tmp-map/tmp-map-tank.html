@@ -89,105 +89,109 @@
 				}
 			},
 
+			move: function(type, id) {
+				var ctop = ((qs("#" + id).style.top == "") ? 0 : parseFloat(qs("#" + id).style.top.replace("px", "")));
+				var cleft =  ((qs("#" + id).style.left == "") ? 0 : parseFloat(qs("#" + id).style.left.replace("px", "")));
+				var tmove = 0;
+				var lmove = 0;
+				var rotation = getRotation($("#" + id)) * (Math.PI/180);
+				var movespeed = (100 / blocks.length) / 5.3; //best value
+
+				if(type == "forward"){
+					lmove = Math.sin(rotation) * movespeed				
+					tmove = Math.cos(rotation) * -1 * movespeed;
+				}
+				else if(type == "backward"){
+					lmove = Math.sin(rotation) * -1 * movespeed				
+					tmove = Math.cos(rotation) * movespeed;
+				}
+				if(!intersectBorder()){
+					qs("#" + id).style.top = (ctop + tmove) + "px";
+					qs("#" + id).style.left = (cleft + lmove) + "px";
+				}
+			},
+
+			rotate: function(type, id) {
+				var rotspeed = 2.2;
+				var crotate = getRotation($("#" + id));
+				var nrotate = crotate;
+				if(type == "right"){
+					nrotate = nrotate + rotspeed;
+				}
+				else if(type == "left"){
+					nrotate = nrotate - rotspeed;
+				}
+				qs("#" + id).style.transform = "rotate(" + nrotate + "deg) scale(" + transform + ")";
+			},
+
+			regKeyListener: function(id) {
+				var forward, backward, right, left;
+				var rot;
+
+				var interlenght = 10;
+				var that = this;
+
+				window.onkeydown = function(e) {
+	   				var key = e.keyCode ? e.keyCode : e.which;
+	   				if(key == 83 && !backward){
+	   					backward = setInterval(function(){
+	   						that.move("backward", id);
+	   					}, interlenght);
+	   				}
+	   				if(key == 87 && !forward){
+	   					forward = setInterval(function(){
+	   						that.move("forward", id);
+	   					}, interlenght);
+	   				}
+					if(key == 68 && !right){
+						right = setInterval(function(){
+						 	that.rotate("right", id);
+						 }, interlenght);
+					}
+	   				if(key == 65 && !left){
+	   					left = setInterval(function(){
+	   					 	that.rotate("left", id);
+	   					 }, interlenght);
+	   				}				
+	   			}
+	   			window.onkeyup = function(e){
+	   				var key = e.keyCode ? e.keyCode : e.which;
+	   				if(key == 83){
+	   					clearInterval(backward);
+	   					backward = null;
+	   				}
+	   				if(key == 87){
+	   					clearInterval(forward);
+	   					forward = null;
+	   				}
+	   				if(key == 68){
+	   					clearInterval(right);
+	   					right = null;
+	   				}
+	   				if(key == 65){
+	   					clearInterval(left);
+	   					left = null;
+	   				}
+	   			}
+			},
+
+			customiseTank: function(elem) {
+				qs("tmp-map").addEventListener("map-ready", function(){
+					transform = (($("#border0_0").height() * 0.6) / 106.05);
+					elem.style.transform = "scale(" + transform + ")";
+				});
+			},
+
 			attached: function(){
-				customiseTank(this);
+				this.customiseTank(this);
 				if(this.client){
-					regKeyListener(this.id);
+					this.regKeyListener(this.id);
 				}
 			}
 		});
 
 		var transform = 0;
 
-		function customiseTank(elem){
-			qs("tmp-map").addEventListener("map-ready", function(){
-				transform = (($("#border0_0").height() * 0.6) / 106.05);
-				elem.style.transform = "scale(" + transform + ")";
-			});
-		}
-
-		function regKeyListener(id){
-			var forward, backward, right, left;
-			var rot;
-
-			var interlenght = 10;
-
-			window.onkeydown = function(e) {
-   				var key = e.keyCode ? e.keyCode : e.which;
-   				if(key == 83 && !backward){
-   					backward = setInterval(function(){
-   						move("backward", id);
-   					}, interlenght);
-   				}
-   				if(key == 87 && !forward){
-   					forward = setInterval(function(){
-   						move("forward", id);
-   					}, interlenght);
-   				}
-				if(key == 68 && !right){
-					right = setInterval(function(){
-					 	rotate("right", id);
-					 }, interlenght);
-				}
-   				if(key == 65 && !left){
-   					left = setInterval(function(){
-   					 	rotate("left", id);
-   					 }, interlenght);
-   				}				
-   			}
-   			window.onkeyup = function(e){
-   				var key = e.keyCode ? e.keyCode : e.which;
-   				if(key == 83){
-   					clearInterval(backward);
-   					backward = null;
-   				}
-   				if(key == 87){
-   					clearInterval(forward);
-   					forward = null;
-   				}
-   				if(key == 68){
-   					clearInterval(right);
-   					right = null;
-   				}
-   				if(key == 65){
-   					clearInterval(left);
-   					left = null;
-   				}
-   			}
-		}
-		function move(type, id){
-			var ctop = ((qs("#" + id).style.top == "") ? 0 : parseFloat(qs("#" + id).style.top.replace("px", "")));
-			var cleft =  ((qs("#" + id).style.left == "") ? 0 : parseFloat(qs("#" + id).style.left.replace("px", "")));
-			var tmove = 0;
-			var lmove = 0;
-			var rotation = getRotation($("#" + id)) * (Math.PI/180);
-			var movespeed = (100 / blocks.length) / 5.3; //best value
-
-			if(type == "forward"){
-				lmove = Math.sin(rotation) * movespeed				
-				tmove = Math.cos(rotation) * -1 * movespeed;
-			}
-			else if(type == "backward"){
-				lmove = Math.sin(rotation) * -1 * movespeed				
-				tmove = Math.cos(rotation) * movespeed;
-			}
-			if(!intersectBorder()){
-				qs("#" + id).style.top = (ctop + tmove) + "px";
-				qs("#" + id).style.left = (cleft + lmove) + "px";
-			}
-		}
-		function rotate(type, id){
-			var rotspeed = 2.2;
-			var crotate = getRotation($("#" + id));
-			var nrotate = crotate;
-			if(type == "right"){
-				nrotate = nrotate + rotspeed;
-			}
-			else if(type == "left"){
-				nrotate = nrotate - rotspeed;
-			}
-			qs("#" + id).style.transform = "rotate(" + nrotate + "deg) scale(" + transform + ")";
-		}
 		function intersectBorder(){
 			return false;
 		}
