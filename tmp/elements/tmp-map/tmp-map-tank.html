@@ -76,17 +76,24 @@
 		function move(type, id){
 			var ctop = ((document.querySelector("#" + id).style.top == "") ? 0 : parseFloat(document.querySelector("#" + id).style.top.replace("px", "")));
 			var cleft =  ((document.querySelector("#" + id).style.left == "") ? 0 : parseFloat(document.querySelector("#" + id).style.left.replace("px", "")));
-			var nmove = 0;
+			var tmove = 0;
+			var lmove = 0;
+			var rotation = getRotation($("#" + id)) * (Math.PI/180);
+			var movespeed = (100 / blocks.length) / 5.3; //best value
+
 			if(type == "forward"){
-				nmove = -1;
+				lmove = Math.sin(rotation) * movespeed				
+				tmove = Math.cos(rotation) * -1 * movespeed;
 			}
 			else if(type == "backward"){
-				nmove = 1;
+				lmove = Math.sin(rotation) * -1 * movespeed				
+				tmove = Math.cos(rotation) * movespeed;
 			}
-			document.querySelector("#" + id).style.top = (ctop + nmove) + "px";
+			document.querySelector("#" + id).style.top = (ctop + tmove) + "px";
+			document.querySelector("#" + id).style.left = (cleft + lmove) + "px";
 		}
 		function rotate(type, id){
-			var rotspeed = 2.5;
+			var rotspeed = 2.2;
 			var crotate = getRotation($("#" + id));
 			var nrotate = crotate;
 			if(type == "right"){
