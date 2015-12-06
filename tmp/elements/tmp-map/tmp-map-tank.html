@@ -4,25 +4,107 @@
 			:host {
 				display: block;
 				position: absolute;
+				transform-origin: 35.8px 60%;
+				height: 106.05px;
+				width: 71.6px;
 			}
 			.tank{
-				height: 25px;
-				width: 25px;
-				background-color: grey;
+				position: absolute;
 			}
 		</style>
 	<section>
-		<div class="tank"></div>
+		<svg class="tank" xmlns:xlink="http://www.w3.org/1999/xlink" height="106.05px" width="71.6px" xmlns="http://www.w3.org/2000/svg">
+			<g transform="matrix(1, 0, 0, 1, 35.8, 65.55)">
+			<use height="81.0" class="base" transform="matrix(1.0, 0.0, 0.0, 1.0, -30.5, -40.5)" width="61.0" xlink:href="#sprite0"/>
+			<use height="98.05" class="turret" transform="matrix(1.0, 0.0, 0.0, 1.0, -35.8, -65.55)" width="71.6" xlink:href="#sprite2"/>
+			</g>
+			<defs>
+			<g id="sprite0" transform="matrix(1, 0, 0, 1, 30.5, 40.5)">
+			  <use height="80.0" id="background" transform="matrix(1.0, 0.0, 0.0, 1.0, -30.0, -40.0)" width="60.0" xlink:href="#sprite1"/>
+			  <use height="81.0" transform="matrix(1.0, 0.0, 0.0, 1.0, -30.5, -40.5)" width="61.0" xlink:href="#shape1"/>
+			</g>
+			<g id="sprite1" transform="matrix(1, 0, 0, 1, 30.0, 40.0)">
+			  <use height="80.0" transform="matrix(1.0, 0.0, 0.0, 1.0, -30.0, -40.0)" width="60.0" xlink:href="#shape0"/>
+			</g>
+			<g id="shape0" transform="matrix(1, 0, 0, 1, 30.0, 40.0)">
+			  <path d="M30.0 -40.0 L30.0 40.0 -30.0 40.0 -30.0 -40.0 30.0 -40.0" fill="#ffffff" fill-rule="evenodd" stroke="none"/>
+			</g>
+			<g id="shape1" transform="matrix(1, 0, 0, 1, 30.5, 40.5)">
+			  <path d="M17.5 -40.0 L30.0 -40.0 30.0 40.0 17.5 40.0 17.5 -40.0 M-17.5 40.0 L-30.0 40.0 -30.0 -40.0 -19.55 -39.95 -17.15 -39.9 -17.45 37.5 -17.5 37.5 -17.5 40.0" fill="url(#gradient0)" fill-rule="evenodd" stroke="none"/>
+			  <path d="M17.5 -40.0 L17.5 40.0 -17.5 40.0 -17.5 37.5 -17.45 37.5 -17.15 -39.9 -19.55 -39.95 17.5 -40.0" fill="url(#gradient1)" fill-rule="evenodd" stroke="none"/>
+			  <path d="M30.0 40.0 L-30.0 40.0 -30.0 -40.0 30.0 -40.0 30.0 40.0" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.0"/>
+			</g>
+			<linearGradient gradientTransform="matrix(0.0, -0.0488, 0.0488, 0.0, -23.6, 0.0)" gradientUnits="userSpaceOnUse" id="gradient0" spreadMethod="pad" x1="-819.2" x2="819.2">
+			  <stop offset="0.0" stop-color="#000000" stop-opacity="0.6"/>
+			  <stop offset="0.11764705882352941" stop-color="#000000" stop-opacity="0.3019608"/>
+			  <stop offset="0.8941176470588236" stop-color="#000000" stop-opacity="0.2"/>
+			  <stop offset="1.0" stop-color="#000000" stop-opacity="0.6"/>
+			</linearGradient>
+			<linearGradient gradientTransform="matrix(0.0, -0.0488, 1.0, 1.0E-4, 0.0, 0.0)" gradientUnits="userSpaceOnUse" id="gradient1" spreadMethod="pad" x1="-819.2" x2="819.2">
+			  <stop offset="0.0" stop-color="#000000" stop-opacity="0.6"/>
+			  <stop offset="0.0392156862745098" stop-color="#000000" stop-opacity="0.4"/>
+			  <stop offset="0.15294117647058825" stop-color="#000000" stop-opacity="0.0"/>
+			  <stop offset="0.7137254901960784" stop-color="#000000" stop-opacity="0.0"/>
+			  <stop offset="0.8352941176470589" stop-color="#000000" stop-opacity="0.1254902"/>
+			  <stop offset="0.9568627450980393" stop-color="#000000" stop-opacity="0.4"/>
+			  <stop offset="1.0" stop-color="#000000" stop-opacity="0.6"/>
+			</linearGradient>
+			<g id="sprite2" transform="matrix(1, 0, 0, 1, 35.8, 65.55)">
+			  <use height="77.5" id="background" transform="matrix(1.0, 0.0, 0.0, 1.0, -22.5, -55.0)" width="45.0" xlink:href="#sprite3"/>
+			  <use height="77.5" transform="matrix(1.0, 0.0, 0.0, 1.0, -22.5, -55.0)" width="45.0" xlink:href="#shape3"/>
+			</g>
+			<g id="sprite3" transform="matrix(1, 0, 0, 1, 22.5, 38.75)">
+			  <use height="77.5" transform="matrix(1.0, 0.0, 0.0, 1.0, -22.5, -38.75)" width="45.0" xlink:href="#shape2"/>
+			</g>
+			<g id="shape2" transform="matrix(1, 0, 0, 1, 22.5, 38.75)">
+			  <path d="M7.5 -5.0 Q12.15 -3.4 15.9 0.35 22.5 6.95 22.5 16.25 22.5 25.55 15.9 32.15 9.3 38.75 0.0 38.75 -9.3 38.75 -15.9 32.15 -22.5 25.55 -22.5 16.25 -22.5 6.95 -15.9 0.35 -12.15 -3.4 -7.5 -5.0 L-7.5 -38.75 7.5 -38.75 7.5 -5.0" fill="#ffffff" fill-rule="evenodd" stroke="none"/>
+			</g>
+			<g id="shape3" transform="matrix(1, 0, 0, 1, 22.5, 55.0)">
+			  <path d="M7.5 -21.25 Q12.15 -19.65 15.9 -15.9 22.5 -9.3 22.5 0.0 22.5 9.3 15.9 15.9 9.3 22.5 0.0 22.5 -9.3 22.5 -15.9 15.9 -22.5 9.3 -22.5 0.0 -22.5 -9.3 -15.9 -15.9 -12.15 -19.65 -7.5 -21.25 L0.0 0.0 7.5 -21.25" fill="url(#gradient2)" fill-rule="evenodd" stroke="none"/>
+			  <path d="M-7.5 -21.25 L-7.5 -55.0 7.5 -55.0 7.5 -21.25 0.0 0.0 -7.5 -21.25" fill="url(#gradient3)" fill-rule="evenodd" stroke="none"/>
+			  <path d="M7.5 -21.25 Q12.15 -19.65 15.9 -15.9 22.5 -9.3 22.5 0.0 22.5 9.3 15.9 15.9 9.3 22.5 0.0 22.5 -9.3 22.5 -15.9 15.9 -22.5 9.3 -22.5 0.0 -22.5 -9.3 -15.9 -15.9 -12.15 -19.65 -7.5 -21.25 L-7.5 -55.0 7.5 -55.0 7.5 -21.25" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.05"/>
+			</g>
+			<radialGradient cx="0" cy="0" gradientTransform="matrix(0.0275, 0.0, 0.0, 0.0275, 0.0, 0.0)" gradientUnits="userSpaceOnUse" id="gradient2" r="819.2" spreadMethod="pad">
+			  <stop offset="0.5137254901960784" stop-color="#000000" stop-opacity="0.0"/>
+			  <stop offset="1.0" stop-color="#000000" stop-opacity="0.5019608"/>
+			</radialGradient>
+			<linearGradient gradientTransform="matrix(0.0089, 0.0, 0.0, 0.0192, 0.0, -37.15)" gradientUnits="userSpaceOnUse" id="gradient3" spreadMethod="pad" x1="-819.2" x2="819.2">
+			  <stop offset="0.0" stop-color="#000000" stop-opacity="0.5019608"/>
+			  <stop offset="0.27058823529411763" stop-color="#000000" stop-opacity="0.0"/>
+			  <stop offset="0.7254901960784313" stop-color="#000000" stop-opacity="0.0"/>
+			  <stop offset="1.0" stop-color="#000000" stop-opacity="0.5019608"/>
+			</linearGradient>
+			</defs>
+		</svg>
 	</section>
 	</template>
 	<script>
 		Polymer({
 			is: 'tmp-tank',
 
+			properties: {
+				client: {
+					type: Boolean,
+					value: false
+				}
+			},
+
 			attached: function(){
-				regKeyListener(this.id);
+				customiseTank(this);
+				if(this.client){
+					regKeyListener(this.id);
+				}
 			}
 		});
+
+		var transform = 0;
+
+		function customiseTank(elem){
+			document.querySelector("tmp-map").addEventListener("map-ready", function(){
+				transform = (($("#border0_0").height() * 0.6) / 106.05);
+				elem.style.transform = "scale(" + transform + ")";
+			});
+		}
 
 		function regKeyListener(id){
 			var forward, backward, right, left;
@@ -102,7 +184,7 @@
 			else if(type == "left"){
 				nrotate = nrotate - rotspeed;
 			}
-			document.querySelector("#" + id).style.transform = "rotate(" + nrotate + "deg)";
+			document.querySelector("#" + id).style.transform = "rotate(" + nrotate + "deg) scale(" + transform + ")";
 		}
 	</script>
 </dom-module>
