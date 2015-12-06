@@ -16,27 +16,17 @@ function getRandomString(length) {
 	}
 	return text;
 }
-function getRotation(id){
-	var st = window.getComputedStyle(document.getElementById(id), null);
-	var tr = st.getPropertyValue("-webkit-transform") ||
-	         st.getPropertyValue("-moz-transform") ||
-	         st.getPropertyValue("-ms-transform") ||
-	         st.getPropertyValue("-o-transform") ||
-	         st.getPropertyValue("transform");
-	if(tr == "none"){
-		return 0;
-	}
-	// rotation matrix - http://en.wikipedia.org/wiki/Rotation_matrix
-	var values = tr.split('(')[1];
-	    values = values.split(')')[0];
-	    values = values.split(',');
-	var a = values[0];
-	var b = values[1];
-	var c = values[2];
-	var d = values[3];
-	var scale = Math.sqrt(a*a + b*b);
-	// arc sin, convert from radians to degrees, round
-	var sin = b/scale;
-	var angle = Math.round(Math.asin(sin) * (180/Math.PI));
-	return angle;
+function getRotation(obj) {
+  var matrix = obj.css("-webkit-transform") ||
+  obj.css("-moz-transform")    ||
+  obj.css("-ms-transform")     ||
+  obj.css("-o-transform")      ||
+  obj.css("transform");
+  if(matrix !== 'none') {
+    var values = matrix.split('(')[1].split(')')[0].split(',');
+    var a = values[0];
+    var b = values[1];
+    var angle = Math.atan2(b, a) * (180/Math.PI);
+  } else { var angle = 0; }
+  return (angle < 0) ? angle +=360 : angle;
 }

@@ -5,14 +5,14 @@
 				display: block;
 				position: absolute;
 			}
-			#tank{
+			.tank{
 				height: 25px;
 				width: 25px;
 				background-color: grey;
 			}
 		</style>
 	<section>
-		<div id="tank"></div>
+		<div class="tank"></div>
 	</section>
 	</template>
 	<script>
@@ -25,16 +25,33 @@
 		});
 
 		function regKeyListener(id){
-			var forward, backward;
+			var forward, backward, right, left;
+			var rot;
+
+			var interlenght = 10;
 
 			window.onkeydown = function(e) {
    				var key = e.keyCode ? e.keyCode : e.which;
    				if(key == 83 && !backward){
    					backward = setInterval(function(){
-   						var ctop = ((document.querySelector("#" + id).style.top == "") ? 0 : parseFloat(document.querySelector("#" + id).style.top.replace("px", "")));
-   						document.querySelector("#" + id).style.top = (ctop + 1) + "px";
-   					}, 1);
+   						move("backward", id);
+   					}, interlenght);
    				}
+   				if(key == 87 && !forward){
+   					forward = setInterval(function(){
+   						move("forward", id);
+   					}, interlenght);
+   				}
+				if(key == 68 && !right){
+					right = setInterval(function(){
+					 	rotate("right", id);
+					 }, interlenght);
+				}
+   				if(key == 65 && !left){
+   					left = setInterval(function(){
+   					 	rotate("left", id);
+   					 }, interlenght);
+   				}				
    			}
    			window.onkeyup = function(e){
    				var key = e.keyCode ? e.keyCode : e.which;
@@ -42,7 +59,43 @@
    					clearInterval(backward);
    					backward = null;
    				}
+   				if(key == 87){
+   					clearInterval(forward);
+   					forward = null;
+   				}
+   				if(key == 68){
+   					clearInterval(right);
+   					right = null;
+   				}
+   				if(key == 65){
+   					clearInterval(left);
+   					left = null;
+   				}
    			}
+		}
+		function move(type, id){
+			var ctop = ((document.querySelector("#" + id).style.top == "") ? 0 : parseFloat(document.querySelector("#" + id).style.top.replace("px", "")));
+			var cleft =  ((document.querySelector("#" + id).style.left == "") ? 0 : parseFloat(document.querySelector("#" + id).style.left.replace("px", "")));
+			var nmove = 0;
+			if(type == "forward"){
+				nmove = -1;
+			}
+			else if(type == "backward"){
+				nmove = 1;
+			}
+			document.querySelector("#" + id).style.top = (ctop + nmove) + "px";
+		}
+		function rotate(type, id){
+			var rotspeed = 2.5;
+			var crotate = getRotation($("#" + id));
+			var nrotate = crotate;
+			if(type == "right"){
+				nrotate = nrotate + rotspeed;
+			}
+			else if(type == "left"){
+				nrotate = nrotate - rotspeed;
+			}
+			document.querySelector("#" + id).style.transform = "rotate(" + nrotate + "deg)";
 		}
 	</script>
 </dom-module>
