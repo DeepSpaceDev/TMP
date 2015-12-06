@@ -171,8 +171,10 @@
 				lmove = Math.sin(rotation) * -1 * movespeed				
 				tmove = Math.cos(rotation) * movespeed;
 			}
-			qs("#" + id).style.top = (ctop + tmove) + "px";
-			qs("#" + id).style.left = (cleft + lmove) + "px";
+			if(!intersectBorder()){
+				qs("#" + id).style.top = (ctop + tmove) + "px";
+				qs("#" + id).style.left = (cleft + lmove) + "px";
+			}
 		}
 		function rotate(type, id){
 			var rotspeed = 2.2;
@@ -185,6 +187,9 @@
 				nrotate = nrotate - rotspeed;
 			}
 			qs("#" + id).style.transform = "rotate(" + nrotate + "deg) scale(" + transform + ")";
+		}
+		function intersectBorder(){
+			return false;
 		}
 	</script>
 </dom-module>
