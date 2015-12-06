@@ -89,7 +89,8 @@
 			},
 
 			startGlobalGame: function() {
-				var width = ((this.randomWidth) ? true : this.width);
+				var falseWidth = this.width < 8 || this.width > 25;
+				var width = ((this.randomWidth || falseWidth) ? true : this.width);
 				this.fire('start-global-game', {
 					maxPlayers: this.players,
 					width: width
