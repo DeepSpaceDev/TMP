@@ -171,7 +171,7 @@
 				lmove = Math.sin(rotation) * -1 * movespeed				
 				tmove = Math.cos(rotation) * movespeed;
 			}
-			if(!intersectBorder()){
+			if(!intersectBorder(id)){
 				qs("#" + id).style.top = (ctop + tmove) + "px";
 				qs("#" + id).style.left = (cleft + lmove) + "px";
 			}
@@ -188,7 +188,50 @@
 			}
 			qs("#" + id).style.transform = "rotate(" + nrotate + "deg) scale(" + transform + ")";
 		}
-		function intersectBorder(){
+		function intersectBorder(id){
+			for(var i = 0; i < blocks.length; i++){
+				for(var j = 0; j < blocks[i].length; j++){
+					var belem = qs("#border" + i + "_" + j);
+					var jbelem = $("#border" + i + "_" + j);
+					var baserect = qs("#" + id + " .base").getBoundingClientRect();
+
+					if(intersects(qs("#" + id),	belem)){
+						if(jbelem.hasClass("btop")){
+							if(baserect.top  < (jbelem.offset().top + (borderStr / 2))){
+								l("top");
+								return true;
+							}
+							else if(baserect.bottom > (jbelem.offset().top + (borderStr / 2))){
+								l("bot");
+								return true;
+							}
+						}
+						if(jbelem.hasClass("bleft")){
+							if(baserect.left  < (jbelem.offset().left + (borderStr / 2)) && //borderstrenght --> tmp-map
+								baserect.right > (jbelem.offset().left + (borderStr / 2))){
+								l(true);
+								return true;
+							}
+						}
+						/*if(jbelem.hasClass("bright")){
+							l(baserect.top + " " + (jbelem.offset().top + (borderStr / 2)));
+							if(baserect.top  < (jbelem.offset().top + (borderStr / 2)) && //borderstrenght --> tmp-map
+								baserect.bottom > (jbelem.offset().top + (borderStr / 2))){
+								l(true);
+								return true;
+							}
+						}
+						if(jbelem.hasClass("bbottom")){
+							l(baserect.top + " " + (jbelem.offset().top + (borderStr / 2)));
+							if(baserect.top  < (jbelem.offset().top + (borderStr / 2)) && //borderstrenght --> tmp-map
+								baserect.bottom > (jbelem.offset().top + (borderStr / 2))){
+								l(true);
+								return true;
+							}
+						}*/
+					}
+				}
+			}
 			return false;
 		}
 	</script>

@@ -63,6 +63,8 @@
 			}
 		});
 
+		var borderStr = 4;
+
 		function countborders(x, y, bx, by){
 			var returner = 0;
 			var xborder = (x + 1 == bx);
@@ -137,7 +139,6 @@
 		function generateMap(b){
 			var blockHori = ((b == undefined || b == true) ? getRandomInt(8, 25) : b);
 			var blockVerti = parseInt((blockHori / 16) * 9); //16 : 9
-			var borderStr = 4;
 
 			var posx = 0;
 			var posy = 0;
