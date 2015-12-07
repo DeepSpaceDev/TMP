@@ -45,7 +45,7 @@
 				color: {
 					type: String,
 					notify: true,
-					value: '#FF9800'
+					value: 'rgb(255,152,0)'
 				},
 				user: {
 					type: Object,
@@ -62,7 +62,8 @@
 
 				var gameId = getRandomString(6);
 				this.set('gameId', gameId);
-				this.set('color', e.detail.color);
+				if(e.detail.color !== 'rgb(undefined, undefined, undefined)')
+					this.set('color', e.detail.color);
 
 				this.push('gameData', {
 					gameId: gameId,
