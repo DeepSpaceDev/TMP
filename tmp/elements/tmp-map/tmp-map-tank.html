@@ -92,7 +92,8 @@
 				},
 				tcolor: {
 					type: String,
-					value: "#bbbbff"
+					value: "#bbbbff",
+					observer: 'setColor'
 				},
 				top: {
 					type: Number,
@@ -120,6 +121,10 @@
 				if(this.client){
 					this.regKeyListener();
 				}
+				this.setColor();
+			},
+			setColor: function(){
+				l("colorchange");
 				$(".colorw").attr("fill", this.tcolor);
 			},
 			move: function(type, id) {
