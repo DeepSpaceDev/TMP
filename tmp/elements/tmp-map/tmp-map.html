@@ -50,346 +50,350 @@
 				ext: {
 					type: Boolean,
 					value: false
+				},
+				borderStr: {
+					type: Number,
+					value: 4
 				}
 			},
 
 			attached: function(){
 				if(this.ext){
-					generateMap();
-					mapTo_16_9();
-					runLabAlgor();
-					drawMap();
+					this.generateMap();
+					this.mapTo_16_9();
+					this.runLabAlgor();
+					this.drawMap();
 				}
-			}
-		});
+			},
 
-		var borderStr = 4;
+			countborders: function(x, y, bx, by){
+				var returner = 0;
+				var xborder = (x + 1 == bx);
+				var yborder = (y + 1 == by);
 
-		function countborders(x, y, bx, by){
-			var returner = 0;
-			var xborder = (x + 1 == bx);
-			var yborder = (y + 1 == by);
-
-			if(blocks[x][y][1]){
-				returner++;
-			}
-
-			if(blocks[x][y][4]){
-				returner++;
-			}
-
-			if(!xborder){
-				if(blocks[x + 1][y][4]){
+				if(blocks[x][y][1]){
 					returner++;
 				}
-			}
-			else{
-				returner++;
-			}
 
-			if(!yborder){
-				if(blocks[x][y + 1][1]){
+				if(blocks[x][y][4]){
 					returner++;
 				}
-			}
-			else{
-				returner++;
-			}
-			return returner;
-		}
-		function border(nx, ny, bx, by, bed){
-			if(countborders(nx, ny, bx, by) <= bed){
-						return true;
-			}
-			else{
-				return false;			
-			}			
-		}
-		function debugRefactor(iscount, refcount){
-			for(var i = 0; i < blocks.length; i++){
-				for(var j = 0; j < blocks[i].length; j++){
-					if(blocks[i][j][0] == refcount){
-						blocks[i][j][0] = iscount;
+
+				if(!xborder){
+					if(blocks[x + 1][y][4]){
+						returner++;
 					}
 				}
-			} 
-		}
-		function drawMap(json){
-			blocks = ((json == undefined) ? blocks : JSON.parse(json));
-
-			for(var i = 0; i < blocks.length; i++){
-				for(var j = 0; j < blocks[i].length; j++){
-					var bl = blocks[i][j];
-
-					if(bl[1]){
-						$("#border" + i + "_" + j).addClass("btop");
-					}
-					if(bl[2]){
-						$("#border" + i + "_" + j).addClass("bright");
-					}
-					if(bl[3]){
-						$("#border" + i + "_" + j).addClass("bbottom");
-					}
-					if(bl[4]){
-						$("#border" + i + "_" + j).addClass("bleft");
-					}
-				}
-			}
-		}
-		function generateMap(b){
-			var blockHori = ((b == undefined || b == true) ? getRandomInt(8, 25) : b);
-			var blockVerti = parseInt((blockHori / 16) * 9); //16 : 9
-
-			var posx = 0;
-			var posy = 0;
-			var hx = 100 / blockHori
-			var hy = 100 / blockVerti;
-			var mgtop = 0;
-			var mgleft = 0;
-
-			var mapc = "";
-			
-				for(var i = 0; i < blockHori; i++){
-				    blocks[i] = [];
-				    for(var j = 0; j < blockVerti; j++){
-				    	mapc += "" 
-				    	+ "<div id='border" + i + "_" + j +"' style='height: " + hy 
-				    	+ "%; width: " + hx
-				    	+ "%; top: calc(" + posy 
-				    	+ "% + " + ((blockVerti * borderStr) / 2 - 5) + "px); left: calc(" + posx 
-				    	+ "% + " + ((blockHori * borderStr) / 2) + "px); margin-top: -" + mgtop
-				    	+ "px; margin-left: -" + mgleft
-				    	+ "px;' class='tmp-map border'>";
-				       	
-				    	blocks[i][j] = [];
-
-				        blocks[i][j][0] = null;
-				        blocks[i][j][1] = false;
-				        blocks[i][j][2] = false;
-				        blocks[i][j][3] = false;
-				        blocks[i][j][4] = false;
-
-
-				        if(j == 0){
-				        	blocks[i][j][1] = true;
-				        } 
-				        if(i == blockHori - 1){
-				        	blocks[i][j][2] = true;
-				        }
-				        if(j == blockVerti - 1){
-				        	blocks[i][j][3] = true;
-				        }
-				        if(i == 0){
-				        	blocks[i][j][4] = true;
-				        }
-				        mapc += "</div>"
-				        posy = posy + 100 / blockVerti;
-				        mgtop = mgtop + borderStr;
-				    }
-				    posy = 0;
-				    mgtop = 0;
-				    mgleft = mgleft + borderStr;
-				    posx = posx + 100 / blockHori;
+				else{
+					returner++;
 				}
 
-				$("map").html(mapc);
-		}
-		function mapTo_16_9(){
-			if(((window.innerWidth / 16) * 9) < window.outerHeight){
-				$("map").height(((window.innerWidth / 16 ) * 9));
-				$("map").css("top", (window.outerHeight - ((window.innerWidth / 16) * 9)) / 3); 
-			}
-			if(((window.outerHeight / 9) * 16) < window.innerWidth){
-				$("map").width(((window.outerHeight / 9 ) * 16));
-				$("map").css("left", (window.innerWidth - ((window.outerHeight / 9) * 16)) / 2);
-			}
-		}
-		function newBlock(x, y, cx, cy){
-			var returner = [];
-			var ny = cy;
-			var nx = cx;
-			var type = getRandomInt(0, 3);
-
-			switch(type){
-				case 0: ny = cy - 1; break; //top
-				case 1: nx = cx + 1; break; //right
-				case 2: ny = cy + 1; break; //bot
-				case 3: nx = cx - 1; break; //left
-			}
-
-			if(nx < 0 || nx >= x || ny < 0 || ny >= y){
-				return newBlock(x, y, cx, cy);
-			}
-			else{
-				switch(type){
-					case 0:
-						blocks[cx][cy][1] = false;
-						if(border(nx, ny, x, y, 1)){
-							switch(getRandomInt(0, 2)){
-								case 0: blocks[nx][ny][1] = true; break;
-								case 1: blocks[nx][ny][4] = true; break;
-								case 2: if(nx + 1 < x){blocks[nx + 1][ny][4] = true;} break;
-							}
-						}						
-						break; //top
-					case 1: 
-						blocks[cx + 1][cy][4] = false;
-						if(border(nx, ny, x, y, 1)){
-							switch(getRandomInt(0, 2)){
-								case 0: blocks[nx][ny][1] = true; break;
-								case 1:	if(nx + 1 < x){blocks[nx + 1][ny][4] = true;} break;
-								case 2: if(ny + 1 < y){blocks[nx][ny + 1][1] = true;} break;
-							}
-						}				
-						break; //right
-					case 2: 
-						blocks[cx][cy + 1][1] = false;
-						if(border(nx, ny, x, y, 1)){
-							switch(getRandomInt(0, 2)){
-								case 0: blocks[nx][ny][4] = true; break;
-								case 1: if(ny + 1 < y){blocks[nx][ny + 1][1] = true;}break;
-								case 2: if(nx + 1 < x){blocks[nx + 1][ny][4] = true;} break;
-							}
-						}
-						break; //bot
-					case 3:
-						blocks[cx][cy][4] = false;
-						if(border(nx, ny, x, y, 1)){
-							switch(getRandomInt(0, 2)){
-								case 0: blocks[nx][ny][1] = true; break;
-								case 1: blocks[nx][ny][4] = true; break;
-								case 2: if(ny + 1 < y){blocks[nx][ny + 1][1] = true;} break;
-							}
-						}		
-						break; //left
+				if(!yborder){
+					if(blocks[x][y + 1][1]){
+						returner++;
+					}
 				}
-
-				returner["x"] = nx;
-				returner["y"] = ny;
+				else{
+					returner++;
+				}
 				return returner;
-			}
-		}
-		function runLabAlgor(){
-			//pick random start at border
-			var curBl = "";
-			var x = blocks.length;
-			var y = blocks[0].length;
-			var cx = getRandomInt(0, x - 1);
-			var cy = getRandomInt(0, y - 1);
-			var run = true;
-			var count = 0;
-
-			while(run){
-				var newB = newBlock(x, y, cx, cy);
-
-				cx = newB["x"];
-				cy = newB["y"];
-
-				if(count == x * y * 35){run = false;} //average value
-				count++;
-			}
-
-			//*******DEBUG MAP*******/
-
-			var counter = 0;
-
-			for(var r = 1; r < 4; r++){
+			},
+			border: function(nx, ny, bx, by, bed){
+				if(this.countborders(nx, ny, bx, by) <= bed){
+					return true;
+				}
+				else{
+					return false;			
+				}			
+			},
+			debugRefactor: function(iscount, refcount){
 				for(var i = 0; i < blocks.length; i++){
 					for(var j = 0; j < blocks[i].length; j++){
-
-						//define elements & anti 2x2 fields
-						if(r == 1){
-							if(!blocks[i][j][4]){
-								blocks[i][j][0] = blocks[i - 1][j][0];
-							}
-							else{
-								blocks[i][j][0] = counter;
-								counter++;
-							}
-							
-							//anti 2x2
-
-							if(i + 1 < blocks.length && j + 1 < blocks[i].length){
-								if(!blocks[i + 1][j][4] && !blocks[i + 1][j + 1][1] && !blocks[i + 1][j + 1][4] && !blocks[i][j + 1][1]){
-									var rd = getRandomInt(0, 3);
-									switch(rd){	
-										case 0: blocks[i + 1][j + 1][1] = true; break;
-										case 1: blocks[i + 1][j + 1][4] = true; break;
-										case 2: blocks[i][j + 1][1] = true; break;
-										case 3: blocks[i + 1][j][4] = true; break;
-									}
-								}
-							}
-
+						if(blocks[i][j][0] == refcount){
+							blocks[i][j][0] = iscount;
 						}
-						//search for related blocks of border elements and give them the same count
-						else if(r == 2){
-							if(j != 0){ //if no topelement
-								if(!blocks[i][j][1]){
-									debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
-								}
-							}
+					}
+				} 
+			},
+			drawMap: function(json){
+				blocks = ((json == undefined) ? blocks : JSON.parse(json));
+
+				for(var i = 0; i < blocks.length; i++){
+					for(var j = 0; j < blocks[i].length; j++){
+						var bl = blocks[i][j];
+
+						if(bl[1]){
+							$("#border" + i + "_" + j).addClass("btop");
 						}
-						//merge different counts
-						else if(r == 3){
-
-							var topelement = (j == 0);
-							var leftelement = (i == 0);
-							var botelement = (j + 1 >= blocks[i].length);
-							var rightelement = (i + 1 >= blocks.length);
-							
-							//random order 
-							var t1 = function(){
-								if(!topelement){
-									if(blocks[i][j][0] != blocks[i][j - 1][0]){
-										blocks[i][j][1] = false;
-										debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
-									}
-								}
-							}
-							var t2 = function(){
-								if(!rightelement){
-									if(blocks[i][j][0] != blocks[i + 1][j][0]){
-										blocks[i + 1][j][4] = false;
-										debugRefactor(blocks[i][j][0], blocks[i + 1][j][0]);
-									}
-								}
-							}
-							var t3 = function(){
-								if(!botelement){
-									if(blocks[i][j][0] != blocks[i][j + 1][0]){
-										blocks[i][j + 1][1] = false;
-										debugRefactor(blocks[i][j][0], blocks[i][j + 1][0]);
-									}
-								}
-							}
-							var t4 = function(){
-								if(!leftelement){
-									if(blocks[i][j][0] != blocks[i - 1][j][0]){
-										blocks[i][j][4] = false;
-										debugRefactor(blocks[i][j][0], blocks[i - 1][j][0]);
-									}
-								}
-							}
-
-							//http://stackoverflow.com/questions/34111676/javascript-random-order-functions/34111912
-							array = [t1, t2, t3, t4];
-
-							array = array.map(function (a, i, o) {
-							    var j = (Math.random() * (o.length - i) | 0) + i,
-							        t = o[j];
-							    o[j] = a;
-							    return t;
-							});
-
-							array.forEach(function (a){ a();});
-						}						
+						if(bl[2]){
+							$("#border" + i + "_" + j).addClass("bright");
+						}
+						if(bl[3]){
+							$("#border" + i + "_" + j).addClass("bbottom");
+						}
+						if(bl[4]){
+							$("#border" + i + "_" + j).addClass("bleft");
+						}
 					}
 				}
-			}
+			},
+			generateMap: function(b){
+				var blockHori = ((b == undefined || b == true) ? getRandomInt(8, 25) : b);
+				var blockVerti = parseInt((blockHori / 16) * 9); //16 : 9
 
-			//Map ready event call
-			qs("tmp-map").dispatchEvent(new CustomEvent('map-ready'));	
-		}
+				var posx = 0;
+				var posy = 0;
+				var hx = 100 / blockHori
+				var hy = 100 / blockVerti;
+				var mgtop = 0;
+				var mgleft = 0;
+
+				var mapc = "";
+				
+					for(var i = 0; i < blockHori; i++){
+					    blocks[i] = [];
+					    for(var j = 0; j < blockVerti; j++){
+					    	mapc += "" 
+					    	+ "<div id='border" + i + "_" + j +"' style='height: " + hy 
+					    	+ "%; width: " + hx
+					    	+ "%; top: calc(" + posy 
+					    	+ "% + " + ((blockVerti * this.borderStr) / 2 - 5) + "px); left: calc(" + posx 
+					    	+ "% + " + ((blockHori * this.borderStr) / 2) + "px); margin-top: -" + mgtop
+					    	+ "px; margin-left: -" + mgleft
+					    	+ "px;' class='tmp-map border'>";
+					       	
+					    	blocks[i][j] = [];
+
+					        blocks[i][j][0] = null;
+					        blocks[i][j][1] = false;
+					        blocks[i][j][2] = false;
+					        blocks[i][j][3] = false;
+					        blocks[i][j][4] = false;
+
+
+					        if(j == 0){
+					        	blocks[i][j][1] = true;
+					        } 
+					        if(i == blockHori - 1){
+					        	blocks[i][j][2] = true;
+					        }
+					        if(j == blockVerti - 1){
+					        	blocks[i][j][3] = true;
+					        }
+					        if(i == 0){
+					        	blocks[i][j][4] = true;
+					        }
+					        mapc += "</div>"
+					        posy = posy + 100 / blockVerti;
+					        mgtop = mgtop + this.borderStr;
+					    }
+					    posy = 0;
+					    mgtop = 0;
+					    mgleft = mgleft + this.borderStr;
+					    posx = posx + 100 / blockHori;
+					}
+
+					$("map").html(mapc);
+			},
+			mapTo_16_9: function(){
+				if(((window.innerWidth / 16) * 9) < window.outerHeight){
+					$("map").height(((window.innerWidth / 16 ) * 9));
+					$("map").css("top", (window.outerHeight - ((window.innerWidth / 16) * 9)) / 3); 
+				}
+				if(((window.outerHeight / 9) * 16) < window.innerWidth){
+					$("map").width(((window.outerHeight / 9 ) * 16));
+					$("map").css("left", (window.innerWidth - ((window.outerHeight / 9) * 16)) / 2);
+				}
+			},
+			newBlock: function(x, y, cx, cy){
+				var returner = [];
+				var ny = cy;
+				var nx = cx;
+				var type = getRandomInt(0, 3);
+
+				switch(type){
+					case 0: ny = cy - 1; break; //top
+					case 1: nx = cx + 1; break; //right
+					case 2: ny = cy + 1; break; //bot
+					case 3: nx = cx - 1; break; //left
+				}
+
+				if(nx < 0 || nx >= x || ny < 0 || ny >= y){
+					return this.newBlock(x, y, cx, cy);
+				}
+				else{
+					switch(type){
+						case 0:
+							blocks[cx][cy][1] = false;
+							if(this.border(nx, ny, x, y, 1)){
+								switch(getRandomInt(0, 2)){
+									case 0: blocks[nx][ny][1] = true; break;
+									case 1: blocks[nx][ny][4] = true; break;
+									case 2: if(nx + 1 < x){blocks[nx + 1][ny][4] = true;} break;
+								}
+							}						
+							break; //top
+						case 1: 
+							blocks[cx + 1][cy][4] = false;
+							if(this.border(nx, ny, x, y, 1)){
+								switch(getRandomInt(0, 2)){
+									case 0: blocks[nx][ny][1] = true; break;
+									case 1:	if(nx + 1 < x){blocks[nx + 1][ny][4] = true;} break;
+									case 2: if(ny + 1 < y){blocks[nx][ny + 1][1] = true;} break;
+								}
+							}				
+							break; //right
+						case 2: 
+							blocks[cx][cy + 1][1] = false;
+							if(this.border(nx, ny, x, y, 1)){
+								switch(getRandomInt(0, 2)){
+									case 0: blocks[nx][ny][4] = true; break;
+									case 1: if(ny + 1 < y){blocks[nx][ny + 1][1] = true;}break;
+									case 2: if(nx + 1 < x){blocks[nx + 1][ny][4] = true;} break;
+								}
+							}
+							break; //bot
+						case 3:
+							blocks[cx][cy][4] = false;
+							if(this.border(nx, ny, x, y, 1)){
+								switch(getRandomInt(0, 2)){
+									case 0: blocks[nx][ny][1] = true; break;
+									case 1: blocks[nx][ny][4] = true; break;
+									case 2: if(ny + 1 < y){blocks[nx][ny + 1][1] = true;} break;
+								}
+							}		
+							break; //left
+					}
+
+					returner["x"] = nx;
+					returner["y"] = ny;
+					return returner;
+				}
+			},
+			runLabAlgor: function(){
+				//pick random start at border
+				var curBl = "";
+				var x = blocks.length;
+				var y = blocks[0].length;
+				var cx = getRandomInt(0, x - 1);
+				var cy = getRandomInt(0, y - 1);
+				var run = true;
+				var count = 0;
+
+				while(run){
+					var newB = this.newBlock(x, y, cx, cy);
+
+					cx = newB["x"];
+					cy = newB["y"];
+
+					if(count == x * y * 35){run = false;} //average value
+					count++;
+				}
+
+				//*******DEBUG MAP*******/
+
+				var counter = 0;
+
+				for(var r = 1; r < 4; r++){
+					for(var i = 0; i < blocks.length; i++){
+						for(var j = 0; j < blocks[i].length; j++){
+
+							//define elements & anti 2x2 fields
+							if(r == 1){
+								if(!blocks[i][j][4]){
+									blocks[i][j][0] = blocks[i - 1][j][0];
+								}
+								else{
+									blocks[i][j][0] = counter;
+									counter++;
+								}
+								
+								//anti 2x2
+
+								if(i + 1 < blocks.length && j + 1 < blocks[i].length){
+									if(!blocks[i + 1][j][4] && !blocks[i + 1][j + 1][1] && !blocks[i + 1][j + 1][4] && !blocks[i][j + 1][1]){
+										var rd = getRandomInt(0, 3);
+										switch(rd){	
+											case 0: blocks[i + 1][j + 1][1] = true; break;
+											case 1: blocks[i + 1][j + 1][4] = true; break;
+											case 2: blocks[i][j + 1][1] = true; break;
+											case 3: blocks[i + 1][j][4] = true; break;
+										}
+									}
+								}
+
+							}
+							//search for related blocks of border elements and give them the same count
+							else if(r == 2){
+								if(j != 0){ //if no topelement
+									if(!blocks[i][j][1]){
+										this.debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
+									}
+								}
+							}
+							//merge different counts
+							else if(r == 3){
+
+								var topelement = (j == 0);
+								var leftelement = (i == 0);
+								var botelement = (j + 1 >= blocks[i].length);
+								var rightelement = (i + 1 >= blocks.length);
+
+								var that = this;
+								
+								//random order 
+								var t1 = function(){
+									if(!topelement){
+										if(blocks[i][j][0] != blocks[i][j - 1][0]){
+											blocks[i][j][1] = false;
+											that.debugRefactor(blocks[i][j][0], blocks[i][j - 1][0]);
+										}
+									}
+								}
+								var t2 = function(){
+									if(!rightelement){
+										if(blocks[i][j][0] != blocks[i + 1][j][0]){
+											blocks[i + 1][j][4] = false;
+											that.debugRefactor(blocks[i][j][0], blocks[i + 1][j][0]);
+										}
+									}
+								}
+								var t3 = function(){
+									if(!botelement){
+										if(blocks[i][j][0] != blocks[i][j + 1][0]){
+											blocks[i][j + 1][1] = false;
+											that.debugRefactor(blocks[i][j][0], blocks[i][j + 1][0]);
+										}
+									}
+								}
+								var t4 = function(){
+									if(!leftelement){
+										if(blocks[i][j][0] != blocks[i - 1][j][0]){
+											blocks[i][j][4] = false;
+											that.debugRefactor(blocks[i][j][0], blocks[i - 1][j][0]);
+										}
+									}
+								}
+
+								//http://stackoverflow.com/questions/34111676/javascript-random-order-functions/34111912
+								array = [t1, t2, t3, t4];
+
+								array = array.map(function (a, i, o) {
+								    var j = (Math.random() * (o.length - i) | 0) + i,
+								        t = o[j];
+								    o[j] = a;
+								    return t;
+								});
+
+								array.forEach(function (a){ a();});
+							}						
+						}
+					}
+				}
+
+				//Map ready event call
+				qs("tmp-map").dispatchEvent(new CustomEvent('map-ready'));	
+			}
+		});
 	</script>
 </dom-module>  

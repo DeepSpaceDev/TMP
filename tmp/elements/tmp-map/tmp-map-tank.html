@@ -230,6 +230,7 @@
 			intersectBorder: function(id){
 				var tank = this;
 				var jtank = $("#" + id);
+				var borderStr = 4;
 				for(var i = 0; i < blocks.length; i++){
 					for(var j = 0; j < blocks[i].length; j++){
 						var belem = qs("#border" + i + "_" + j);
