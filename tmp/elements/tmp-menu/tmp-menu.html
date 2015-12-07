@@ -93,7 +93,8 @@
 				var width = ((this.randomWidth || falseWidth) ? true : this.width);
 				this.fire('start-global-game', {
 					maxPlayers: this.players,
-					width: width
+					width: width,
+					color: 'rgb(' + this.color[0] + ', ' + this.color[1] + ', ' + this.color[2] + ')'
 				});
 			},
 
