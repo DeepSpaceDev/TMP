@@ -124,7 +124,6 @@
 				this.setColor();
 			},
 			setColor: function(){
-				l("colorchange");
 				$(".colorw").attr("fill", this.tcolor);
 			},
 			move: function(type, id) {
@@ -241,49 +240,45 @@
 			},
 			intersectBorder: function(id){
 				var tank = this;
-				var jtank = $("#" + id);
+				var jtank = $("#" + id + " .base");
 				var borderStr = 4;
+				var baserect = qs("#" + id + " .base").getBoundingClientRect();
+
 				for(var i = 0; i < blocks.length; i++){
 					for(var j = 0; j < blocks[i].length; j++){
-						var belem = qs("#border" + i + "_" + j);
-						var jbelem = $("#border" + i + "_" + j);
-						var baserect = qs("#" + id + " .base").getBoundingClientRect();
+						if(intersects(qs("#" + id + " .base"), qs("#border" + i + "_" + j))){
+							var jbelem = $("#border" + i + "_" + j);
 
-						if(intersects(this,	belem)){
+							var tanktop = baserect.top;
+							var tankleft = baserect.left;
+							var tankbottom = baserect.bottom;
+							var tankheight = qs("#t1 .base").getBoundingClientRect().height;
+							var tankwidth = qs("#t1 .base").getBoundingClientRect().width;
+
+							var bordertop = jbelem.offset().top;
+							var borderleft = jbelem.offset().left;
+							var borderwidth = jbelem.width();
+
+							var tbmove = function(){
+								if(tanktop + tankheight - 1 < bordertop + borderStr) {
+									tank.style.top = (parseInt(tank.style.top.replace("px", "")) - 1) + "px";
+								}
+								if(tanktop + 1 > bordertop){
+									tank.style.top = (parseInt(tank.style.top.replace("px", "")) + 1) + "px";
+								}
+								if(tankleft + tankwidth - 1 < borderleft) {
+									tank.style.left = (parseInt(tank.style.left.replace("px", "")) - 1) + "px";
+								}
+								if(tankleft + 1 > borderleft + borderStr) {
+									tank.style.left = (parseInt(tank.style.left.replace("px", "")) + 1) + "px";
+								}
+							}
 							if(jbelem.hasClass("btop")){
-								if(baserect.top  < (jbelem.offset().top + (borderStr / 2)) && baserect.bottom > (jbelem.offset().top + (borderStr / 2))){
-									if(baserect.top + 1 < (jbelem.offset().top + (borderStr / 2))){
-										tank.style.top = (parseInt(tank.style.top.replace("px", "")) - 1) + "px";
-									}
-									if(baserect.bottom - 1 > (jbelem.offset().top + (borderStr / 2))){
-										tank.style.top = (parseInt(tank.style.top.replace("px", "")) + 1) + "px";
-									}
+								if(tanktop  < (bordertop + borderStr) && tankbottom > bordertop){
+									tbmove();
 									return true;
 								}
 							}
-							/*if(jbelem.hasClass("bleft")){
-								if(baserect.left  < (jbelem.offset().left + (borderStr / 2)) && //borderstrenght --> tmp-map
-									baserect.right > (jbelem.offset().left + (borderStr / 2))){
-									l(true);
-									return true;
-								}
-							}
-							/*if(jbelem.hasClass("bright")){
-								l(baserect.top + " " + (jbelem.offset().top + (borderStr / 2)));
-								if(baserect.top  < (jbelem.offset().top + (borderStr / 2)) && //borderstrenght --> tmp-map
-									baserect.bottom > (jbelem.offset().top + (borderStr / 2))){
-									l(true);
-									return true;
-								}
-							}
-							if(jbelem.hasClass("bbottom")){
-								l(baserect.top + " " + (jbelem.offset().top + (borderStr / 2)));
-								if(baserect.top  < (jbelem.offset().top + (borderStr / 2)) && //borderstrenght --> tmp-map
-									baserect.bottom > (jbelem.offset().top + (borderStr / 2))){
-									l(true);
-									return true;
-								}
-							}*/
 						}
 					}
 				}
