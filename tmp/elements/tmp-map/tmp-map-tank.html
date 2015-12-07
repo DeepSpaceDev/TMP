@@ -93,27 +93,8 @@
 				tcolor: {
 					type: String,
 					value: "#bbbbff"
-				},
-				top: {
-					type: Number,
-					notify: true,
-					value: 100
-				},
-				left: {
-					type: Number,
-					notify: true,
-					value: 100
-				},
-				rotation: {
-					type: Number,
-					notify: true,
-					value: 0
 				}
 			},
-
-			observers: [
-				'updateTransformation(top, left, rotation)'
-			],
 
 			attached: function(){
 				this.customiseTank();
@@ -125,11 +106,9 @@
 			move: function(type, id) {
 				var ctop = ((this.style.top == "") ? 0 : parseFloat(this.style.top.replace("px", "")));
 				var cleft =  ((this.style.left == "") ? 0 : parseFloat(this.style.left.replace("px", "")));
-				// var ctop = this.top;
-				// var cleft = this.left;
 				var tmove = 0;
 				var lmove = 0;
-				var rotation = this.rotation * (Math.PI/180);
+				var rotation = getRotation($("#" + id)) * (Math.PI/180);
 				var movespeed = (100 / blocks.length) / 5.3; //best value
 
 				if(type == "forward"){
@@ -141,8 +120,6 @@
 					tmove = Math.cos(rotation) * movespeed;
 				}
 				if(!this.intersectBorder(id)){
-					// this.set('top', ctop + tmove);
-					// this.set('left', cleft + lmove);
 					this.style.top = (ctop + tmove) + "px";
 					this.style.left = (cleft + lmove) + "px";
 				}
@@ -150,24 +127,17 @@
 			rotate: function(type, id) {
 				var rotspeed = 2.2;
 				var crotate = getRotation($('#' + id));
-				var nrotate = this.rotation;
+				var nrotate = crotate;
 				if(type == "right") {
 					nrotate = nrotate + rotspeed;
 				}
 				else if(type == "left") {
 					nrotate = nrotate - rotspeed;
 				}
-				if(!this.intersectBorder(id)) {
-					this.set('rotation', nrotate);
+				if(!this.intersectBorder(id)) {			
+					this.style.transform = "rotate(" + nrotate + "deg) scale(" + this.ttransform + ")";
 				}
 			},
-
-			updateTransformation: function(top, left, rotation) {
-				// this.style.top = top + 'px';
-				// this.style.left = left + 'px';
-				this.style.transform = "rotate(" + rotation + "deg) scale(" + this.ttransform + ")";
-			},
-
 			regKeyListener: function() {
 				var forward, backward, right, left;
 				var rot;
@@ -177,7 +147,6 @@
 				var that = this;
 
 				window.onkeydown = function(e) {
-					e.preventDefault();
 	   				var key = e.keyCode ? e.keyCode : e.which;
 	   				if((key == 83 || key == 40) && !backward) {
 	   					backward = setInterval(function() {
