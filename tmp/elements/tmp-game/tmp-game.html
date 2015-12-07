@@ -64,10 +64,10 @@
 				});
 
 				$("map").html("");
-				generateMap(e.detail.width);
-				mapTo_16_9();
-				runLabAlgor();
-				drawMap();
+				qs('tmp-map').generateMap(e.detail.width);
+				qs('tmp-map').mapTo_16_9();
+				qs('tmp-map').runLabAlgor();
+				qs('tmp-map').drawMap();
 			},
 
 			joinGame: function(e) {
@@ -75,8 +75,8 @@
 				for (var i = 0; i < this.gameData.length; i++) {
 					if(this.gameData[i].gameId === gameId) {
 						var map = this.gameData[i].map;
-						generateMap(JSON.parse(map).length);
-						drawMap(map);
+						qs('tmp-map').generateMap(JSON.parse(map).length);
+						qs('tmp-map').drawMap(map);
 						this.set('gameRunning', true);
 					}
 				}
