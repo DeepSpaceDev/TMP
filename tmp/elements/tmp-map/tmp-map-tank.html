@@ -177,24 +177,27 @@
 				var that = this;
 
 				window.onkeydown = function(e) {
-					e.preventDefault();
 	   				var key = e.keyCode ? e.keyCode : e.which;
 	   				if((key == 83 || key == 40) && !backward) {
+	   					e.preventDefault();
 	   					backward = setInterval(function() {
 	   						that.move("backward", id);
 	   					}, interlenght);
 	   				}
 	   				if((key == 87 || key == 38) && !forward) {
+	   					e.preventDefault();
 	   					forward = setInterval(function() {
 	   						that.move("forward", id);
 	   					}, interlenght);
 	   				}
 					if((key == 68 || key == 39) && !right) {
+						e.preventDefault();
 						right = setInterval(function() {
 						 	that.rotate("right", id);
 						 }, interlenght);
 					}
 	   				if((key == 65 || key == 37) && !left) {
+	   					e.preventDefault();
 	   					left = setInterval(function() {
 	   					 	that.rotate("left", id);
 	   					 }, interlenght);
@@ -203,18 +206,22 @@
 	   			window.onkeyup = function(e) {
 	   				var key = e.keyCode ? e.keyCode : e.which;
 	   				if(key == 83 || key == 40) {
+	   					e.preventDefault();
 	   					clearInterval(backward);
 	   					backward = null;
 	   				}
 	   				if(key == 87 || key == 38) {
+	   					e.preventDefault();
 	   					clearInterval(forward);
 	   					forward = null;
 	   				}
 	   				if(key == 68 || key == 39) {
+	   					e.preventDefault();
 	   					clearInterval(right);
 	   					right = null;
 	   				}
 	   				if(key == 65 || key == 37) {
+	   					e.preventDefault();
 	   					clearInterval(left);
 	   					left = null;
 	   				}
