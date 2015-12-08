@@ -69,10 +69,6 @@ function virtualIntersection(qs1, qs2) {
   return doPolygonsIntersect(elPoints[0], elPoints[1]);
 }
 
-function isUndefined(e) {
-  return e === undefined;
-}
-
 /**
  * Helper function to determine whether there is an intersection between the two polygons described
  * by the lists of vertices. Uses the Separating Axis Theorem
