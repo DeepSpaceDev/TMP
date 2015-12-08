@@ -40,24 +40,44 @@ function intersects(obj1, obj2) {
            rect1.top > rect2.bottom);
 }
 function virtualIntersection(qs1, qs2) {
-  var width1 = qs(qs1).getBoundingClientRect().width;
-  var height1 = qs(qs1).getBoundingClientRect().height;
-  var rotation1 = getRotation($(qs1));
-  var width2 = qs(qs2).getBoundingClientRect().width;
-  var height2 = qs(qs2).getBoundingClientRect().height;
-  var rotation2 = getRotation($(qs2));
+  var elements = [qs1, qs2];
+  var elPoints = [];
 
-  
+  for (var i = 0; i < elements.length; i++) {
+    var jqEl = $(elements[i]);
+    var jsEl = qs(elements[i]);
 
-  var topLeft1 = 
-  var topRight1 = 
-  var bottomLeft1 =
-  var bottomRight1 =
-  var topLeft2 = 
-  var topRight2 = 
-  var bottomLeft2 =
-  var bottomRight2 =
+    var boundingRect = jsEl.getBoundingClientRect();
+    var left = boundingRect.left;
+    var top = boundingRect.top;
+    var boundingW = boundingRect.width;
+    var boundingH = boundingRect.height;
+    var actualH = jsEl.style.height;
+    var actualW = jsEl.style.width;
+    var a = getRotation(jqEl);
+    var smallW = Math.sin(a) * actualH;
+    var smallH = Math.cos(a) * actualW;
+
+    var points = [
+      {x: left + smallW, y: top},
+      {x: left + boundingW, y: top + smallH},
+      {x: left + boundingW - smallW, y: top + boundingH},
+      {x: left, y: top + boundingH - smallH}
+    ];
+    elPoints[i] = points;
+  }
+
+  return doPolygonsIntersect(elPoints[0], elPoints[1]);
 }
+
+/**
+ * Helper function to determine whether there is an intersection between the two polygons described
+ * by the lists of vertices. Uses the Separating Axis Theorem
+ *
+ * @param a an array of connected points [{x:, y:}, {x:, y:},...] that form a closed polygon
+ * @param b an array of connected points [{x:, y:}, {x:, y:},...] that form a closed polygon
+ * @return true if there is any intersection between the 2 polygons, false otherwise
+ */
 function doPolygonsIntersect (a, b) {
     var polygons = [a, b];
     var minA, maxA, projected, i, i1, j, minB, maxB;
