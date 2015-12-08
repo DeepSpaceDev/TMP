@@ -66,7 +66,6 @@ function virtualIntersection(qs1, qs2) {
     ];
     elPoints[i] = points;
   }
-
   return doPolygonsIntersect(elPoints[0], elPoints[1]);
 }
 
@@ -139,4 +138,7 @@ function doPolygonsIntersect (a, b) {
 }
 function qs(selectorString) {
   return document.querySelector(selectorString);
+}
+function isUndefined(v){
+  return v === undefined;
 }
