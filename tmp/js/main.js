@@ -139,6 +139,3 @@ function doPolygonsIntersect (a, b) {
 function qs(selectorString) {
   return document.querySelector(selectorString);
 }
-function isUndefined(v){
-  return v === undefined;
-}
