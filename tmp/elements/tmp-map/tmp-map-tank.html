@@ -112,9 +112,7 @@
 				}
 			},
 
-			observers: [
-				'updateTransformation(top, left, rotation)'
-			],
+			observers: ['updateTransformation(top, left, rotation)'],
 
 			attached: function(){
 				this.customiseTank();
@@ -134,7 +132,7 @@
 				// var cleft = this.left;
 				var tmove = 0;
 				var lmove = 0;
-				var rotation = this.rotation * (Math.PI/180);
+				var rotation = ((this.rotation === undefined) ? 0 : this.rotation * (Math.PI/180));
 				var movespeed = (100 / blocks.length) / 5.3; //best value
 
 				if(type == "forward"){
@@ -154,8 +152,7 @@
 			},			
 			rotate: function(type, id) {
 				var rotspeed = 2.2;
-				var crotate = getRotation($('#' + id));
-				var nrotate = this.rotation;
+				var nrotate = ((this.rotation === undefined) ? 0 : this.rotation);
 				if(type == "right") {
 					nrotate = nrotate + rotspeed;
 				}
@@ -171,6 +168,9 @@
 				// this.style.top = top + 'px';
 				// this.style.left = left + 'px';
 				this.style.transform = "rotate(" + rotation + "deg) scale(" + this.ttransform + ")";
+				console.log(top);
+				console.log(left);
+				console.log(rotation);
 			},
 
 			regKeyListener: function() {
