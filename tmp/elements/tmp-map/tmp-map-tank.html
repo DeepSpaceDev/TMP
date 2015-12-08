@@ -92,7 +92,7 @@
 				},
 				tcolor: {
 					type: String,
-					value: "#bbbbff",
+					value: "#2fba8e",
 					observer: 'setColor'
 				},
 				top: {
@@ -120,6 +120,7 @@
 				this.customiseTank();
 				if(this.client){
 					this.regKeyListener();
+					this.setRandomSpawn();
 				}
 				this.setColor();
 			},
@@ -252,6 +253,7 @@
 							var tanktop = baserect.top;
 							var tankleft = baserect.left;
 							var tankbottom = baserect.bottom;
+							var tankright = baserect.right;
 							var tankheight = qs("#t1 .base").getBoundingClientRect().height;
 							var tankwidth = qs("#t1 .base").getBoundingClientRect().width;
 
@@ -260,28 +262,63 @@
 							var borderwidth = jbelem.width();
 
 							var tbmove = function(){
-								if(tanktop + tankheight - 1 < bordertop + borderStr) {
+								if(tankbottom - 1 < bordertop + borderStr) {
 									tank.style.top = (parseInt(tank.style.top.replace("px", "")) - 1) + "px";
 								}
 								if(tanktop + 1 > bordertop){
 									tank.style.top = (parseInt(tank.style.top.replace("px", "")) + 1) + "px";
 								}
-								if(tankleft + tankwidth - 1 < borderleft) {
+								if(tankright - 1 < borderleft) {
 									tank.style.left = (parseInt(tank.style.left.replace("px", "")) - 1) + "px";
 								}
-								if(tankleft + 1 > borderleft + borderStr) {
+								if(tankleft + 1.5 > borderleft + borderStr) {
 									tank.style.left = (parseInt(tank.style.left.replace("px", "")) + 1) + "px";
 								}
 							}
-							if(jbelem.hasClass("btop")){
+							if(blocks[i][j][1]){
 								if(tanktop  < (bordertop + borderStr) && tankbottom > bordertop){
 									tbmove();
 									return true;
 								}
 							}
+							if(blocks[i][j][4]){
+								if(tankleft  < (borderleft + borderStr) && tankright > borderleft){
+									tbmove();
+									return true;
+								}
+							}/*
+							if(blocks[i][j][1]){
+								if(tanktop  < (bordertop + borderStr) && tankbottom > bordertop){
+									tbmove();
+									return true;
+								}
+							}
+							if(blocks[i][j][1]){
+								if(tanktop  < (bordertop + borderStr) && tankbottom > bordertop){
+									tbmove();
+									return true;
+								}
+							}*/
 						}
 					}
 				}
+				return false;
+			},
+			setRandomSpawn: function(){
+				var that = this;
+				qs("tmp-map").addEventListener("map-ready", function(){
+					var randX = getRandomInt(0, blocks.length - 1);
+					var randY = getRandomInt(0, blocks[0].length - 1);
+					var elem = qs("#border" + randX + "_" + randY);
+					var jelem = $("#border" + randX + "_" + randY);
+					var jtank = $("#" + that.id);
+					var top = jelem.offset().top + (jelem.height() / 2) - (jtank.height() / 2) + "px";
+					var left = jelem.offset().left + (jelem.width() / 2) - (jtank.width() / 2) + "px";
+					jtank.css('top', top);
+					jtank.css('left', left);
+					that.rotation = getRandomInt(0, 360);
+					that.style.transform = "scale(" + that.ttransform + ") rotation(" + rotation + "deg)";
+				});
 			}
 		});
 	</script>
