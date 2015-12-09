@@ -37,7 +37,7 @@
 		<section>
 			<map id="map"></map>
 			<div id="tanks">
-				<tmp-tank id="t1" client="true" tcolor="[[color]]"></tmp-tank>
+				<tmp-tank id="t1" client="true" width="{{tankWidth}}" height="{{tankHeight}}" tcolor="[[color]]"></tmp-tank>
 			</div>
 		</section>
 	</template>
@@ -54,6 +54,12 @@
 				borderStr: {
 					type: Number,
 					value: 4
+				},
+				tankWidth: {
+					type: Number
+				},
+				tankHeight: {
+					type: Number
 				}
 			},
 

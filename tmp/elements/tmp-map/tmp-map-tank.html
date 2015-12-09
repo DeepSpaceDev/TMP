@@ -88,7 +88,8 @@
 					value: false
 				},
 				ttransform: {
-					type: Number
+					type: Number,
+					observer: 'calcBoundings'
 				},
 				tcolor: {
 					type: String,
@@ -104,6 +105,16 @@
 					type: Number,
 					notify: true,
 					value: 100
+				},
+				width: {
+					type: Number,
+					notify: true,
+					value: 61
+				},
+				height: {
+					type: Number,
+					notify: true,
+					value: 81
 				},
 				rotation: {
 					type: Number,
@@ -145,12 +156,12 @@
 					lmove = Math.sin(rotation) * -1 * movespeed				
 					tmove = Math.cos(rotation) * movespeed;
 				}
-				if(!this.intersectBorder(id)){
+				//if(!this.intersectBorder(id)){
 					// this.set('top', ctop + tmove);
 					// this.set('left', cleft + lmove);
 					this.style.top = (ctop + tmove) + "px";
 					this.style.left = (cleft + lmove) + "px";
-				}
+				//}
 			},			
 			rotate: function(type, id) {
 				var rotspeed = 2.2;
@@ -162,9 +173,9 @@
 				else if(type == "left") {
 					nrotate = nrotate - rotspeed;
 				}
-				if(!this.intersectBorder(id)) {
+				//if(!this.intersectBorder(id)) {
 					this.set('rotation', nrotate);
-				}
+				//}
 			},
 
 			updateTransformation: function(top, left, rotation) {
@@ -239,6 +250,12 @@
 					that.style.transform = "scale(" + that.ttransform + ")";
 				});
 			},
+
+			calcBoundings: function() {
+				this.set('width', this.ttransform * 61);
+				this.set('height', this.ttransform * 81);
+			},
+
 			intersectBorder: function(id){
 				var tank = this;
 				var jtank = $("#" + id + " .base");
@@ -254,8 +271,8 @@
 							var tankleft = baserect.left;
 							var tankbottom = baserect.bottom;
 							var tankright = baserect.right;
-							var tankheight = qs("#t1 .base").getBoundingClientRect().height;
-							var tankwidth = qs("#t1 .base").getBoundingClientRect().width;
+							var tankheight = qs("#t1 .base").getBoundingClientRect().height; //height without the margin and border
+							var tankwidth = qs("#t1 .base").getBoundingClientRect().width; //width without the margin and border
 
 							var bordertop = jbelem.offset().top;
 							var borderleft = jbelem.offset().left;
