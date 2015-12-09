@@ -1,3 +1,9 @@
+$(document).ready(function(){
+  $("html").on("contextmenu",function(e){
+    e.preventDefault();
+  });
+});
+
 function l(s){
 	console.log(s);
 }
@@ -138,4 +144,12 @@ function doPolygonsIntersect (a, b) {
 }
 function qs(selectorString) {
   return document.querySelector(selectorString);
+}
+function px2pz(px, type){
+  if(type == "height"){
+    return (100 / window.innerHeight) * px;
+  }
+  if(type == "width"){
+    return (100 / window.innerWidth) * px;
+  }
 }
