@@ -1,19 +1,20 @@
-function virtualIntersection(qs1, qs2) {
-  var elements = [qs1, qs2];
+function virtualIntersection(qsTank, qs) {
+  var elements = [qsTank, qs];
   var elPoints = [];
 
   for (var i = 0; i < elements.length; i++) {
     var jqEl = $(elements[i]);
-    var jsEl = qs(elements[i]);
+    var jsEl = document.querySelector(elements[i]);
 
     var boundingRect = jsEl.getBoundingClientRect();
     var left = boundingRect.left;
     var top = boundingRect.top;
     var boundingW = boundingRect.width;
     var boundingH = boundingRect.height;
-    var actualH = jsEl.height;
-    var actualW = jsEl.width;
-    var a = getRotation(jqEl);
+    var actualH = ((i === 0) ? jsEl.height : boundingW);
+    var actualW = ((i === 0) ? jsEl.width : boundingH);
+    var rotation = getRotation(jqEl);
+    var a = rotation % 90;
     var smallW = Math.sin(a) * actualH;
     var smallH = Math.cos(a) * actualW;
 
