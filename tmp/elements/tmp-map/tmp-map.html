@@ -39,8 +39,9 @@
 			<div id="tanks">
 				<template is="dom-repeat" items={{players}} 
 					as="player">
-					<tmp-tank id="t1" top$="{{player.top}}" left$="{{player.left}}" 
-							  rotation$="{{player.rotation}}" 
+					<tmp-tank id="t1" top="{{player.top}}" left="{{player.left}}" 
+							  rotation="{{player.rotation}}"
+							  ttransform="{{ttransform}}"
 							  client="true" tcolor$="[[color]]">
 					</tmp-tank>
 				</template>
@@ -57,6 +58,10 @@
 					type: Boolean,
 					value: false
 				},
+				ttransform: {
+					type: Number,
+					observer: 'transform'
+				},
 				borderStr: {
 					type: Number,
 					value: 4
@@ -70,6 +75,10 @@
 
 			obs: function() {
 				console.log(this.players);
+			},
+
+			transform: function() {
+				console.log('tranfrom');
 			},
 
 			attached: function(){

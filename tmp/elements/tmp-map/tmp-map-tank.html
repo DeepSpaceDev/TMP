@@ -1,17 +1,17 @@
 <dom-module id="tmp-tank">
 	<template>
-		<style>
-			:host {
-				display: block;
-				position: absolute;
-				transform-origin: 35.8px 60%;
-				height: 106.05px;
-				width: 71.6px;
-			}
-			.tank{
-				position: absolute;
-			}
-		</style>
+	<style>
+		:host {
+			display: block;
+			position: absolute;
+			transform-origin: 35.8px 60%;
+			height: 106.05px;
+			width: 71.6px;
+		}
+		.tank{
+			position: absolute;
+		}
+	</style>
 	<section>
 		<svg class="tank" xmlns:xlink="http://www.w3.org/1999/xlink" height="106.05px" width="71.6px" xmlns="http://www.w3.org/2000/svg">
 			<g transform="matrix(1, 0, 0, 1, 35.8, 65.55)">
@@ -88,7 +88,8 @@
 					value: false
 				},
 				ttransform: {
-					type: Number
+					type: Number,
+					observer: 'customiseTank'
 				},
 				tcolor: {
 					type: String,
@@ -115,7 +116,6 @@
 			observers: ['updateTransformation(top, left, rotation)'],
 
 			attached: function(){
-				this.customiseTank();
 				if(this.client){
 					this.regKeyListener();
 				}
@@ -161,6 +161,8 @@
 				}
 				if(!this.intersectBorder(id)) {
 					this.set('rotation', nrotate);
+					//console.log(this.ttransform);
+					//this.style.transform = "rotate(" + nrotate + "deg) scale(" + this.ttransform + ")";
 				}
 			},
 
@@ -233,11 +235,12 @@
 	   			}
 			},
 			customiseTank: function() {
-				var that = this;
-				qs("tmp-map").addEventListener("map-ready", function(){
-					that.set('ttransform', (($("#border0_0").height() * 0.6) / 106.05));
-					that.style.transform = "scale(" + that.ttransform + ")";
-				});
+				console.log('transform: ' + this.ttransform);
+				console.log(this.rotation);
+				var rotation = (this.rotation === undefined) ? "" : "rotate(" + this.rotation + "deg) ";
+				console.log(rotation);
+				this.style.transform = rotation + "scale(" + this.ttransform + ")";
+				console.log(this.style.transform);
 			},
 			intersectBorder: function(id){
 				var tank = this;
