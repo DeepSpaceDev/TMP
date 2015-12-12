@@ -15,7 +15,7 @@
 			}
 		</style>
 		<div id="mapContainer" style="visibility: collapse">
-			<tmp-map color="[[color]]" ttransform="{{ttransform}}" players="{{game.players}}" on-map-ready="_mapReadyCallback"></tmp-map>
+			<tmp-map color="[[color]]" ttransform="{{ttransform}}" game="{{game}}" on-map-ready="_mapReadyCallback"></tmp-map>
 		</div>
 		<div id="menuContainer" style="visibility: visible">
 			<tmp-menu on-start-global-game="startGlobalGame" on-join-game="joinGame"></tmp-menu>
@@ -37,9 +37,11 @@
 					observer: '_gameStatusChanged'
 				},
 				gamesData: {
+					type: Array,
 					notify: true
 				},
 				game: {
+					type: Object,
 					notify: true
 				},
 				gameId: {
@@ -99,7 +101,8 @@
 				var gameId = e.detail.gameId;
 				for (var i = 0; i < this.gamesData.length; i++) {
 					if(this.gamesData[i].gameId === gameId) {
-						var map = this.gamesData[i].map;
+						// var map = this.gamesData[i].map;
+						var map = this.get('map', this.gamesData[i]);
 						qs('tmp-map').generateMap(JSON.parse(map).length);
 						qs('tmp-map').drawMap(map);
 						this.set('gameRunning', true);
@@ -123,7 +126,8 @@
 				for (var i = 0; i < this.gamesData.length; i++) {
 					if(this.gamesData[i].gameId === this.gameId) {
 						var map = JSON.stringify(blocks);
-						this.set('gamesData.' + i + '.map', map);
+						var game = this.get('gamesData.' + i);
+						game.map = map; // WHY IS THIS SHIT WORKING :OOO !!!!
 					}
 				}
 			}

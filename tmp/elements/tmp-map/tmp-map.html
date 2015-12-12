@@ -37,7 +37,7 @@
 		<section>
 			<map id="map"></map>
 			<div id="tanks">
-				<template is="dom-repeat" items={{players}} 
+				<template is="dom-repeat" items={{game.players}} 
 					as="player">
 					<tmp-tank id="t1" top="{{player.top}}" left="{{player.left}}" 
 							  rotation="{{player.rotation}}"
@@ -66,7 +66,7 @@
 					type: Number,
 					value: 4
 				},
-				players: {
+				game: {
 					type: Object,
 					notify: true,
 					observer: 'obs'
