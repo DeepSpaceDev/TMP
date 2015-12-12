@@ -1,12 +1,15 @@
-function l(s){
+function l(s) {
 	console.log(s);
 }
-function getRandomBoolean(){
+
+function getRandomBoolean() {
 	return Math.random() >= 0.5;
 }
+
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
 function getRandomString(length) {
 	var text = '';
 	var pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -16,6 +19,7 @@ function getRandomString(length) {
 	}
 	return text;
 }
+
 function getRotation(obj) {
   var matrix = obj.css("-webkit-transform") ||
   obj.css("-moz-transform")    ||
@@ -30,6 +34,7 @@ function getRotation(obj) {
   } else { var angle = 0; }
   return (angle < 0) ? angle +=360 : angle;
 }
+
 function intersects(obj1, obj2) {
   var rect1 = obj1.getBoundingClientRect();
   var rect2 = obj2.getBoundingClientRect();
@@ -39,14 +44,25 @@ function intersects(obj1, obj2) {
            rect1.bottom < rect2.top ||
            rect1.top > rect2.bottom);
 }
+
 function qs(selectorString) {
   return document.querySelector(selectorString);
 }
-function px2pz(px, type){
-  if(type == "height"){
+
+function px2pz(px, type) {
+  if(type === "height") {
     return (100 / window.innerHeight) * px;
   }
-  if(type == "width"){
+  if(type === "width") {
     return (100 / window.innerWidth) * px;
+  }
+}
+
+function pz2px(pz, type) {
+  if(type === 'height') {
+    return (window.innerHeight / 100) * pz;
+  }
+  if(type === 'width') {
+    return (window.innerWidth / 100) * pz;
   }
 }
