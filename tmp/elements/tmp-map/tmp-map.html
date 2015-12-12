@@ -39,8 +39,7 @@
 			<div id="tanks">
 				<template is="dom-repeat" items={{game.players}} 
 					as="player">
-					<tmp-tank id="t1" top="{{player.top}}" left="{{player.left}}" 
-							  rotation="{{player.rotation}}"
+					<tmp-tank id="t1" player="{{player}}"
 							  ttransform="{{ttransform}}"
 							  client="true" tcolor$="[[color]]">
 					</tmp-tank>
