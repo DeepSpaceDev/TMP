@@ -133,10 +133,8 @@
 			},
 
 			move: function(type, id) {
-				// var ctop = ((this.style.top == "") ? 0 : parseFloat(this.style.top.replace("px", "")));
-				// var cleft =  ((this.style.left == "") ? 0 : parseFloat(this.style.left.replace("px", "")));
-				var ctop = ((this.player.top === undefined) ? 0 : this.player.top);
-				var cleft = ((this.player.left === undefined) ? 0 : this.player.left);
+				var ctop = ((this.style.top == "") ? 0 : parseFloat(this.style.top.replace("px", "")));
+				var cleft =  ((this.style.left == "") ? 0 : parseFloat(this.style.left.replace("px", "")));
 				var tmove = 0;
 				var lmove = 0;
 				var rotation = ((this.player.rotation === undefined) ? 0 : this.player.rotation * (Math.PI/180));
