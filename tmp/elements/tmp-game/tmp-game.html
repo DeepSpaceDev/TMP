@@ -42,7 +42,8 @@
 				},
 				game: {
 					type: Object,
-					notify: true
+					notify: true,
+					observer: 'gameChanged'
 				},
 				gameId: {
 					type: String
@@ -62,11 +63,19 @@
 				}
 			},
 
+			gameChanged: function() {
+				console.log('game Changed'); //Doesn't fire!!
+				for (var i = 0; i < this.gamesData.length; i++) {
+					if(this.gamesData[i].gameId === this.gameId) {
+						this.gamesData[i] = this.game;
+					}
+				}
+			},
+
 			selectGame: function() {
 				for (var i = 0; i < this.gamesData.length; i++) {
 					if(this.gamesData[i].gameId === this.gameId) {
 						this.set('game', this.gamesData[i]);
-						this.linkPaths('game', 'gamesData.' + i);
 					}
 				}
 			},
