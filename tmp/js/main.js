@@ -42,3 +42,11 @@ function intersects(obj1, obj2) {
 function qs(selectorString) {
   return document.querySelector(selectorString);
 }
+function px2pz(px, type){
+  if(type == "height"){
+    return (100 / window.innerHeight) * px;
+  }
+  if(type == "width"){
+    return (100 / window.innerWidth) * px;
+  }
+}
