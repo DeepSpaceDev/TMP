@@ -42,8 +42,7 @@
 				},
 				game: {
 					type: Object,
-					notify: true,
-					observer: 'gameChanged'
+					notify: true
 				},
 				gameId: {
 					type: String
@@ -63,11 +62,26 @@
 				}
 			},
 
-			gameChanged: function() {
-				console.log('game Changed'); //Doesn't fire!!
+			observers: ['gameChanged(game.*)'],
+
+			gameChanged: function(changeRecord) {
+				console.log(changeRecord);
 				for (var i = 0; i < this.gamesData.length; i++) {
 					if(this.gamesData[i].gameId === this.gameId) {
-						this.gamesData[i] = this.game;
+						if(changeRecord.path === 'game.map') {
+							this.set('gamesData.' + i + '.map', changeRecord.value);
+						} else if(changeRecord.path === 'game.maxPlayers') {
+							this.set('gamesData.' + i + '.maxPlayers', changeRecord.value);
+						} else if(changeRecord.path.search('game.players') !== -1 ) {
+							var pathAnchors = changeRecord.path.split('.');
+							var basePath = 'gamesData.' + i + '.players.' + pathAnchors[2] + '.';
+							var value = changeRecord.value;
+							switch(pathAnchors[3]) {
+								case 'top': this.set(basePath + 'top', value); break;
+								case 'left': this.set(basePath + 'left', value); break;
+								case 'rotation': this.set(basePath + 'rotation', value); break;
+							}
+						}
 					}
 				}
 			},
@@ -110,7 +124,6 @@
 				var gameId = e.detail.gameId;
 				for (var i = 0; i < this.gamesData.length; i++) {
 					if(this.gamesData[i].gameId === gameId) {
-						// var map = this.gamesData[i].map;
 						var map = this.get('map', this.gamesData[i]);
 						qs('tmp-map').generateMap(JSON.parse(map).length);
 						qs('tmp-map').drawMap(map);
