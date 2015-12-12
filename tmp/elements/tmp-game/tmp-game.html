@@ -65,7 +65,6 @@
 			observers: ['gameChanged(game.*)'],
 
 			gameChanged: function(changeRecord) {
-				console.log(changeRecord);
 				for (var i = 0; i < this.gamesData.length; i++) {
 					if(this.gamesData[i].gameId === this.gameId) {
 						if(changeRecord.path === 'game.map') {

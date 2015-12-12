@@ -117,14 +117,26 @@
 				}
 				this.setColor();
 			},
+
+			updateTransformation: function(changeRecord) {
+				if(changeRecord.path === 'player.top') {
+					this.style.top = pz2px(changeRecord.value, 'height') + 'px';
+				} else if(changeRecord.path === 'player.left') {
+					this.style.left = pz2px(changeRecord.value, 'width') + 'px';
+				} else if(changeRecord.path === 'player.rotation') {
+					this.style.transform = "rotate(" + changeRecord.value + "deg) scale(" + this.ttransform + ")";
+				}
+			},
+
 			setColor: function(){
 				$(".colorw").attr("fill", this.tcolor);
 			},
+
 			move: function(type, id) {
-				var ctop = ((this.style.top == "") ? 0 : parseFloat(this.style.top.replace("px", "")));
-				var cleft =  ((this.style.left == "") ? 0 : parseFloat(this.style.left.replace("px", "")));
-				// var ctop = this.top;
-				// var cleft = this.left;
+				// var ctop = ((this.style.top == "") ? 0 : parseFloat(this.style.top.replace("px", "")));
+				// var cleft =  ((this.style.left == "") ? 0 : parseFloat(this.style.left.replace("px", "")));
+				var ctop = ((this.player.top === undefined) ? 0 : this.player.top);
+				var cleft = ((this.player.left === undefined) ? 0 : this.player.left);
 				var tmove = 0;
 				var lmove = 0;
 				var rotation = ((this.rotation === undefined) ? 0 : this.rotation * (Math.PI/180));
@@ -139,12 +151,13 @@
 					tmove = Math.cos(rotation) * movespeed;
 				}
 				if(!this.intersectBorder(id)){
-					// this.set('top', ctop + tmove);
-					// this.set('left', cleft + lmove);
-					this.style.top = (ctop + tmove) + "px";
-					this.style.left = (cleft + lmove) + "px";
+					this.set('player.top', px2pz(ctop + tmove, 'height'));
+					this.set('player.left', px2pz(cleft + lmove, 'width'));
+					// this.style.top = (ctop + tmove) + "px";
+					// this.style.left = (cleft + lmove) + "px";
 				}
-			},			
+			},	
+
 			rotate: function(type, id) {
 				var rotspeed = 2.2;
 				var nrotate = ((this.player.rotation === undefined) ? 0 : this.player.rotation);
@@ -156,19 +169,6 @@
 				}
 				if(!this.intersectBorder(id)) {
 					this.set('player.rotation', nrotate);
-				}
-			},
-
-			updateTransformation: function(changeRecord) {
-				// this.style.top = top + 'px';
-				// this.style.left = left + 'px';
-				console.log(changeRecord);
-				if(changeRecord.path === 'player.top') {
-
-				} else if(changeRecord.path === 'player.left') {
-
-				} else if(changeRecord.path === 'player.rotation') {
-					this.style.transform = "rotate(" + changeRecord.value + "deg) scale(" + this.ttransform + ")";
 				}
 			},
 
