@@ -139,7 +139,7 @@
 				var cleft = ((this.player.left === undefined) ? 0 : this.player.left);
 				var tmove = 0;
 				var lmove = 0;
-				var rotation = ((this.rotation === undefined) ? 0 : this.rotation * (Math.PI/180));
+				var rotation = ((this.player.rotation === undefined) ? 0 : this.player.rotation * (Math.PI/180));
 				var movespeed = (100 / blocks.length) / 5.3; //best value
 
 				if(type == "forward"){
